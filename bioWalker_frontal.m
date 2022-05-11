@@ -28,9 +28,16 @@ ifi = Screen('GetFlipInterval', window);
 %% TRAJ. SETUP
 trajFiles = dir('TrajectoryData/*.mat');
 
+noOfMarkers = 28;
+visibleMarkers = 20;
+remove = noOfMarkers - visibleMarkers;
+randIndex = randi(length(trajFiles), [1, remove]);
+
 for i=1:length(trajFiles)
-    trajData{1,i} = trajFiles(i).name;
-    trajData{2,i} = load(['TrajectoryData/', trajFiles(i).name]);
+%     if ~(ismember())
+        trajData{1,i} = trajFiles(i).name;
+        trajData{2,i} = load(['TrajectoryData/', trajFiles(i).name]);
+%     end
 end
 
 %% DOT SETUP
