@@ -74,14 +74,16 @@ data_count = 1;
 life_count = 0;
 % len = size(trajData{2, 1}.array, 2);
 len = 500;
+
 scale = 2;
+angle = pi/8; % only works for 0, +-pi, +-pi/2??? 
 
 while ~KbCheck 
     if mod(life_count, len / 50) == 0
         trajFiles = dir('TrajectoryData/*.mat');
     
         noOfMarkers = 28;
-        visibleMarkers = 20;
+        visibleMarkers = 28;
         remove = noOfMarkers - visibleMarkers;
         randIndex = randperm(length(trajFiles), remove);
         index = 1;
@@ -102,7 +104,10 @@ while ~KbCheck
         dotXpos = trajData{2, i}.array(1, data_count)/scale;
         dotYpos = trajData{2, i}.array(2, data_count)/scale;
 
-        Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
+        xPos = cos(angle)*dotXpos + sin(angle)*dotYpos;
+        yPos = -1*sin(angle)*dotXpos + cos(angle)*dotYpos;
+
+        Screen('DrawDots', window, [xPos; yPos], dotSizes, white, dotCenter, 2);
     end
 
     % Flip to the screen

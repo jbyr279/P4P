@@ -10,7 +10,7 @@ PsychDefaultSetup(2);
 % Set window to opacity for debugging 
 PsychDebugWindowConfiguration(0, 0.5);
 
-% Get the screen numbers
+% Get the screen number
 screens = Screen('Screens');
 
 % Draw to the external screen if avaliable
@@ -28,9 +28,18 @@ ifi = Screen('GetFlipInterval', window);
 %% TRAJ. SETUP
 trajFiles = dir('TrajectoryData/*.mat');
 
+noOfMarkers = 28;
+visibleMarkers = 4;
+remove = noOfMarkers - visibleMarkers;
+randIndex = randperm(length(trajFiles), remove);
+index = 1;
+
 for i=1:length(trajFiles)
-    trajData{1,i} = trajFiles(i).name;
-    trajData{2,i} = load(['TrajectoryData/', trajFiles(i).name]);
+    if ~(ismember(i, randIndex))
+        trajData{1,index} = trajFiles(i).name;
+        trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
+        index = index + 1;
+    end
 end
 
 %% DOT SETUP
@@ -43,7 +52,7 @@ dotCenter = [(screenXpixels / 2 - 100) (screenYpixels / 2 + 500)];
 
 dotYpos = 0;
 dotXpos = 0;
-dotSizes = 20;
+dotSizes = 10;
 
 white = WhiteIndex(screenNumber);
 dotColours = white*colourLevel;
@@ -66,14 +75,23 @@ data_count = 1;
 len = 1000;
 scale = 2;
 
+dotXpos = zeros(length(trajData), size(trajData{2,1}.array,2));
+dotYpos = zeros(length(trajData), size(trajData{2,1}.array,2));
+
+for i = 1:length(trajData)
+    dotXpos(i,:) = -trajData{2, i}.array(1, :)/scale;
+    dotYpos(i,:) = -trajData{2, i}.array(3, :)/scale;
+end
+
 while ~KbCheck
     % Extract dotXpos and dotYpos and apply to dot on screen 
     for i = 1:length(trajData)
         % data_count*0.1 is an offset for our specific data
-        dotXpos = -trajData{2, i}.array(1, data_count)/scale - data_count*0.1;
-        dotYpos = -trajData{2, i}.array(3, data_count)/scale;
+        %dotXpos = -trajData{2, i}.array(1, data_count)/scale - data_count*0.1;
+        %dotYpos = -trajData{2, i}.array(3, data_count)/scale;
 
-        Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
+        Screen('DrawDots', window, [dotXpos(i, data_count) - 0.1*data_count; dotYpos(i, data_count)], ...
+            dotSizes, white, dotCenter, 2);
     end
 
     % Flip to the screen
