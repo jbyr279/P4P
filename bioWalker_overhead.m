@@ -81,7 +81,11 @@ while ~KbCheck
         trajFiles = dir('TrajectoryData/*.mat');
     
         noOfMarkers = 28;
+<<<<<<< HEAD
         visibleMarkers = 28;
+=======
+        visibleMarkers = 20;
+>>>>>>> main
         remove = noOfMarkers - visibleMarkers;
         randIndex = randperm(length(trajFiles), remove);
         index = 1;
