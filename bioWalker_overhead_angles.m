@@ -96,7 +96,7 @@ while ~KbCheck
                 
                 data = trajData{2,index}.array;
                 data(4,:) = [];
-                transData = rotateAxis(data, 45, "overhead");
+                transData = rotateAxis(data, 150, "overhead");
                 trajData{2,index}.array = transData;
 
                 index = index + 1;

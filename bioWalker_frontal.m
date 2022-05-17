@@ -8,7 +8,7 @@ clearvars;
 PsychDefaultSetup(2);
 
 % Set window to opacity for debugging 
-PsychDebugWindowConfiguration(0, 0.5);
+PsychDebugWindowConfiguration(0, 0.9);
 
 % Get the screen numbers
 screens = Screen('Screens');
@@ -26,21 +26,28 @@ screenNumber = max(screens);
 ifi = Screen('GetFlipInterval', window);
 
 %% TRAJ. SETUP
-trajFiles = dir('TrajectoryData/*.mat');
-
-noOfMarkers = 28;
-visibleMarkers = 20;
-remove = noOfMarkers - visibleMarkers;
-randIndex = randperm(length(trajFiles), remove);
-index = 1;
-
-for i=1:length(trajFiles)
-    if ~(ismember(i, randIndex))
-        trajData{1,index} = trajFiles(i).name;
-        trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
-        index = index + 1;
-    end
-end
+% trajFiles = dir('TrajectoryData/*.mat');
+% 
+% noOfMarkers = 28;
+% visibleMarkers = 28;
+% remove = noOfMarkers - visibleMarkers;
+% randIndex = randperm(length(trajFiles), remove);
+% index = 1;
+% 
+% for i=1:length(trajFiles)
+%     
+%     if ~(ismember(i, randIndex))
+%         trajData{1,index} = trajFiles(i).name;
+%         trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
+% 
+%         data = trajData{2,index}.array;
+%         data(4,:) = [];
+%         transData = rotateAxis(data, 135, "profile");
+%         trajData{2,index}.array = transData;
+% 
+%         index = index + 1;
+%     end
+% end
 
 %% DOT SETUP
 % Colour intensity
@@ -71,15 +78,42 @@ Screen('Flip', window);
 
 time = 0;
 data_count = 1;
+life_count = 0;
+
 % len = size(trajData{2, 1}.array, 2);
 len = 1000;
 scale = 2;
 
-while ~KbCheck
+while ~KbCheck 
+    if mod(life_count, len / 50) == 0
+        trajFiles = dir('TrajectoryData/*.mat');
+    
+        noOfMarkers = 28;
+        visibleMarkers = 15;
+        remove = noOfMarkers - visibleMarkers;
+        randIndex = randperm(length(trajFiles), remove);
+        index = 1;
+        
+        for i=1:length(trajFiles)
+            if ~(ismember(i, randIndex))
+                trajData{1,index} = trajFiles(i).name;
+                trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
+
+                data = trajData{2,index}.array;
+                data(4,:) = [];
+                transData = rotateAxis(data, 180, "profile");
+                trajData{2,index}.array = transData;
+
+                index = index + 1;
+            end
+        end
+    end
+
     % Extract dotXpos and dotYpos and apply to dot on screen 
     for i = 1:length(trajData)
-        % data_count*0.1 is an offset for our specific data
-        dotXpos = -trajData{2, i}.array(2, data_count)/scale + data_count*0.1;
+        % data_count*0.1 is an offset for our specific data subject's
+        % uwitting speed during data capture
+        dotXpos = trajData{2, i}.array(1, data_count)/scale;
         dotYpos = -trajData{2, i}.array(3, data_count)/scale;
 
         Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
@@ -92,6 +126,11 @@ while ~KbCheck
     time = time + ifi;
 
     data_count = data_count + 1;
+    if (data_count >= len)
+        data_count = 1;
+    end
+
+    life_count = life_count + 1;
     if (data_count >= len)
         data_count = 1;
     end
