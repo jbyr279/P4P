@@ -46,7 +46,8 @@ ifi = Screen('GetFlipInterval', window);
 % Colour intensity
 colourLevel = 1;
 
-% We can define a center for the dot coordinates to be relaitive to. Here
+% We can define a center for the dot coordinates to be relaitive to.
+% Heresca
 % we set the centre to be the centre of the screen
 dotCenter = [(screenXpixels / 2 + 200) (screenYpixels / 2 + 200)];
 
@@ -74,14 +75,16 @@ data_count = 1;
 life_count = 0;
 % len = size(trajData{2, 1}.array, 2);
 len = 500;
-scale = 2;
+
+scale = 3;
+angle = 0; % only works for 0, +-pi, +-pi/2??? 
 
 while ~KbCheck 
     if mod(life_count, len / 50) == 0
         trajFiles = dir('TrajectoryData/*.mat');
     
         noOfMarkers = 28;
-        visibleMarkers = 20;
+        visibleMarkers = 28;
         remove = noOfMarkers - visibleMarkers;
         randIndex = randperm(length(trajFiles), remove);
         index = 1;
@@ -90,6 +93,12 @@ while ~KbCheck
             if ~(ismember(i, randIndex))
                 trajData{1,index} = trajFiles(i).name;
                 trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
+                
+                data = trajData{2,index}.array;
+                data(4,:) = [];
+                transData = rotateAxis(data, 45, "overhead");
+                trajData{2,index}.array = transData;
+
                 index = index + 1;
             end
         end
@@ -101,6 +110,9 @@ while ~KbCheck
         % uwitting speed during data capture
         dotXpos = trajData{2, i}.array(1, data_count)/scale;
         dotYpos = trajData{2, i}.array(2, data_count)/scale;
+
+        xPos = cos(angle)*dotXpos + sin(angle)*dotYpos;
+        yPos = -1*sin(angle)*dotXpos + cos(angle)*dotYpos;
 
         Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
     end

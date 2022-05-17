@@ -31,13 +31,15 @@ trajFiles = dir('TrajectoryData/*.mat');
 noOfMarkers = 28;
 visibleMarkers = 20;
 remove = noOfMarkers - visibleMarkers;
-randIndex = randi(length(trajFiles), [1, remove]);
+randIndex = randperm(length(trajFiles), remove);
+index = 1;
 
 for i=1:length(trajFiles)
-%     if ~(ismember())
-        trajData{1,i} = trajFiles(i).name;
-        trajData{2,i} = load(['TrajectoryData/', trajFiles(i).name]);
-%     end
+    if ~(ismember(i, randIndex))
+        trajData{1,index} = trajFiles(i).name;
+        trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
+        index = index + 1;
+    end
 end
 
 %% DOT SETUP
