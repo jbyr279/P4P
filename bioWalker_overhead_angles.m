@@ -46,12 +46,9 @@ ifi = Screen('GetFlipInterval', window);
 % Colour intensity
 colourLevel = 1;
 
-<<<<<<< HEAD
 % We can define a center for the dot coordinates to be relaitive to.
 % Heresca
-=======
 % We can define a center for the dot coordinates to be relaitive to. Here
->>>>>>> main
 % we set the centre to be the centre of the screen
 dotCenter = [(screenXpixels / 2 + 200) (screenYpixels / 2 + 200)];
 
@@ -80,13 +77,10 @@ life_count = 0;
 % len = size(trajData{2, 1}.array, 2);
 len = 500;
 
-<<<<<<< HEAD
 scale = 3;
 angle = 0; % only works for 0, +-pi, +-pi/2??? 
-=======
 scale = 2;
 angle = pi/8; % only works for 0, +-pi, +-pi/2??? 
->>>>>>> main
 
 while ~KbCheck 
     if mod(life_count, len / 50) == 0
@@ -102,15 +96,12 @@ while ~KbCheck
             if ~(ismember(i, randIndex))
                 trajData{1,index} = trajFiles(i).name;
                 trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
-<<<<<<< HEAD
                 
                 data = trajData{2,index}.array;
                 data(4,:) = [];
                 transData = rotateAxis(data, 150, "overhead");
                 trajData{2,index}.array = transData;
 
-=======
->>>>>>> main
                 index = index + 1;
             end
         end
@@ -126,11 +117,8 @@ while ~KbCheck
         xPos = cos(angle)*dotXpos + sin(angle)*dotYpos;
         yPos = -1*sin(angle)*dotXpos + cos(angle)*dotYpos;
 
-<<<<<<< HEAD
         Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
-=======
         Screen('DrawDots', window, [xPos; yPos], dotSizes, white, dotCenter, 2);
->>>>>>> main
     end
 
     % Flip to the screen
