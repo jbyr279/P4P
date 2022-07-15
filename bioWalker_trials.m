@@ -8,7 +8,7 @@ clearvars;
 PsychDefaultSetup(2);
 
 % Set window to opacity for debugging 
-% PsychDebugWindowConfiguration(0, 0.5);
+PsychDebugWindowConfiguration(0, 0.2);
 
 % Get the screen numbers
 screens = Screen('Screens');
@@ -80,7 +80,7 @@ life_count = 0;
 len = 1000;
 scale = 2;
 
-[keyIsDown, secs, keyCode, deltaSecs] = KbCheck;
+inputKeys = cell(1, 16); 
 
  for trial = 1:size(trial_rand, 2)
     % Reset KbCheck
@@ -88,7 +88,7 @@ scale = 2;
     while ~keyIsDown
 
         [keyIsDown, secs, keyCode, deltaSecs] = KbCheck;
-        input = KbName(keyCode);
+        inputKeys{trial} = KbName(keyCode);
 
         if mod(life_count, len / 50) == 0
              trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat');
