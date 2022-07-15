@@ -89,7 +89,7 @@ while ~KbCheck
         trajFiles = dir('TrajectoryData/*.mat');
     
         noOfMarkers = 28;
-        visibleMarkers = 28;
+        visibleMarkers = 23;
         remove = noOfMarkers - visibleMarkers;
         randIndex = randperm(length(trajFiles), remove);
         index = 1;
@@ -101,7 +101,7 @@ while ~KbCheck
 
                 data = trajData{2,index}.array;
                 data(4,:) = [];
-                transData = rotateAxis(data, 90, "profile");
+                transData = rotateAxis(data, 0, "profile");
                 trajData{2,index}.array = transData;
 
                 index = index + 1;
