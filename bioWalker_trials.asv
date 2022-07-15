@@ -62,14 +62,17 @@ for i = 1:size(degradation)
     end
 end
 
+
 %% DOT SETUP
 % Colour intensity
 colourLevel = 1;
 
 % We can define a center for the dot coordinates to be relaitive to. Here
 % we set the centre to be the centre of the screen
+sca
 dotCenter = [(screenXpixels / 2 - 200) (screenYpixels / 2 + 500)];
 
+sca
 dotYpos = 0;
 dotXpos = 0;
 dotSizes = 20;
