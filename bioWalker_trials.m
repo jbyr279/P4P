@@ -28,7 +28,7 @@ ifi = Screen('GetFlipInterval', window);
 %% TRIAL MATRIX SETUP 
 current_trial = {};
 
-theta_v = [0, 30, 60, 90];
+theta_v = [90, 120, 150, 180];
 degradation = [7, 14, 21, 28];
 
 for i = 1:size(degradation,2)
@@ -38,6 +38,12 @@ for i = 1:size(degradation,2)
         current_trial{i,j}.correct = false;
     end
 end
+
+len = size(degradation,2) * size(theta_v,2);
+
+current_trial = reshape(current_trial,[1,len]);
+
+trial_rand = current_trial(randperm(length(current_trial)));
 
 %% DOT SETUP
 % Colour intensity
@@ -76,37 +82,38 @@ scale = 2;
 
 done = false;
 
-while ~KbCheck
-    if mod(life_count, len / 50) == 0
-        trajData = getTrajData(20, 0, 'TrajectoryData/*.mat');
+ for trial = 1:size(trial_rand, 2)
+    while ~KbCheck
+        if mod(life_count, len / 50) == 0
+            trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat');
+        end
+    
+        % Extract dotXpos and dotYpos and apply to dot on screen 
+        for i = 1:length(trajData)
+            % data_count*0.1 is an offset for our specific data subject's
+            % uwitting speed during data capture
+            dotXpos = trajData{2, i}.array(1, data_count)/scale;
+            dotYpos = -trajData{2, i}.array(3, data_count)/scale;
+    
+            Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
+        end
+    
+        % Flip to the screen
+        vbl  = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
+    
+        % Increment the time
+        time = time + ifi;
+    
+        data_count = data_count + 1;
+        if (data_count >= len)
+            data_count = 1;
+        end
+    
+        life_count = life_count + 1;
+        if (data_count >= len)
+            data_count = 1;
+        end
     end
-
-    % Extract dotXpos and dotYpos and apply to dot on screen 
-    for i = 1:length(trajData)
-        % data_count*0.1 is an offset for our specific data subject's
-        % uwitting speed during data capture
-        dotXpos = trajData{2, i}.array(1, data_count)/scale;
-        dotYpos = -trajData{2, i}.array(3, data_count)/scale;
-
-        Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
-    end
-
-    % Flip to the screen
-    vbl  = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
-
-    % Increment the time
-    time = time + ifi;
-
-    data_count = data_count + 1;
-    if (data_count >= len)
-        data_count = 1;
-    end
-
-    life_count = life_count + 1;
-    if (data_count >= len)
-        data_count = 1;
-    end
-
 end
 
 % Concept for automating 
