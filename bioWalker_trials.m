@@ -8,7 +8,7 @@ clearvars;
 PsychDefaultSetup(2);
 
 % Set window to opacity for debugging 
-% PsychDebugWindowConfiguration(0, 0.5);
+PsychDebugWindowConfiguration(0, 0.2);
 
 % Get the screen numbers
 screens = Screen('Screens');
