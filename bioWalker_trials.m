@@ -80,15 +80,14 @@ life_count = 0;
 len = 1000;
 scale = 2;
 
-[keyIsDown, secs, keyCode, deltaSecs] = KbCheck;
+inputKey = cell(1,16);
 
  for trial = 1:size(trial_rand, 2)
-    % Reset KbCheck
     keyIsDown = false;
     while ~keyIsDown
 
-        [keyIsDown, secs, keyCode, deltaSecs] = KbCheck;
-        input = KbName(keyCode);
+        [keyIsDown, ~, keyCode, ~] = KbCheck;
+        inputKey{trial} = KbName(keyCode);
 
         if mod(life_count, len / 50) == 0
              trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat');
@@ -121,13 +120,20 @@ scale = 2;
         end
     end
     pause(1);
-end
 
-% Concept for automating 
-[~, ~, keyCode, ~] = KbCheck;
-disp(KbName(keyCode));
-
-pause(2);
+    if (trial_rand{trial}.theta_v == 90)
+        trial_rand{trial}.correct = (strcmp(inputKey{trial}, '1!'));
+    elseif  (trial_rand{trial}.theta_v == 120)
+        trial_rand{trial}.correct = (strcmp(inputKey{trial}, '2@'));
+    elseif (trial_rand{trial}.theta_v == 150)
+        trial_rand{trial}.correct = (strcmp(inputKey{trial}, '3#'));
+    elseif (trial_rand{trial}.theta_v == 180)
+        trial_rand{trial}.correct = (strcmp(inputKey{trial}, '4$'));
+    end
+ end
 
 % Clear screen
 sca;
+
+
+
