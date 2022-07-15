@@ -8,7 +8,7 @@ clearvars;
 PsychDefaultSetup(2);
 
 % Set window to opacity for debugging 
-% PsychDebugWindowConfiguration(0, 0.9);
+PsychDebugWindowConfiguration(0, 0.8);
 
 % Get the screen numbers
 screens = Screen('Screens');
@@ -55,10 +55,11 @@ current_trial = {};
 theta_v = [0, 30, 60, 90];
 degradation = [7, 14, 21, 28];
 
-for i = 1:size(degradation)
-    for j = 1:size(theta_v)
+for i = 1:size(degradation,2)
+    for j = 1:size(theta_v,2)
         current_trial{i,j}.degradation = degradation(i);
         current_trial{i,j}.theta_v = theta_v(j);
+        current_trial{i,j}.correct = false;
     end
 end
 
