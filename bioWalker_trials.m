@@ -25,30 +25,6 @@ screenNumber = max(screens);
 % Query the frame duration
 ifi = Screen('GetFlipInterval', window);
 
-%% TRAJ. SETUP
-% trajFiles = dir('TrajectoryData/*.mat');
-% 
-% noOfMarkers = 28;
-% visibleMarkers = 28;
-% remove = noOfMarkers - visibleMarkers;
-% randIndex = randperm(length(trajFiles), remove);
-% index = 1;
-% 
-% for i=1:length(trajFiles)
-%     
-%     if ~(ismember(i, randIndex))
-%         trajData{1,index} = trajFiles(i).name;
-%         trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
-% 
-%         data = trajData{2,index}.array;
-%         data(4,:) = [];
-%         transData = rotateAxis(data, 135, "profile");
-%         trajData{2,index}.array = transData;
-% 
-%         index = index + 1;
-%     end
-% end
-
 %% TRIAL MATRIX SETUP 
 current_trial = {};
 
@@ -102,27 +78,7 @@ done = false;
 
 while ~KbCheck
     if mod(life_count, len / 50) == 0
-        trajFiles = dir('TrajectoryData/*.mat');
-        
-        noOfMarkers = 28;
-        visibleMarkers = 23;
-        remove = noOfMarkers - visibleMarkers;
-        randIndex = randperm(length(trajFiles), remove);
-        index = 1;
-        
-        for i=1:length(trajFiles)
-            if ~(ismember(i, randIndex))
-                trajData{1,index} = trajFiles(i).name;
-                trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
-
-                data = trajData{2,index}.array;
-                data(4,:) = [];
-                transData = rotateAxis(data, 0, "profile");
-                trajData{2,index}.array = transData;
-
-                index = index + 1;
-            end
-        end
+        trajData = getTrajData(20, 0, 'TrajectoryData/*.mat');
     end
 
     % Extract dotXpos and dotYpos and apply to dot on screen 
@@ -150,11 +106,6 @@ while ~KbCheck
     if (data_count >= len)
         data_count = 1;
     end
-
-
-
-
-
 
 end
 
