@@ -27,7 +27,7 @@ ifi = Screen('GetFlipInterval', window);
 
 %% TRIAL MATRIX SETUP 
 numTrials = 4;
-current_trial = {};
+current_trials = {};
 
 theta_v = [90, 120, 150, 180];
 degradation = [7, 14, 21, 28];
@@ -35,18 +35,18 @@ degradation = [7, 14, 21, 28];
 for i = 1:size(degradation,2)
     for j = 1:size(theta_v,2)
         for k = 1:numTrials
-            current_trial{i,j}.degradation = degradation(i);
-            current_trial{i,j}.theta_v = theta_v(j);
-            current_trial{i,j}.correct = false;
+            current_trials{i, j}.degradation = degradation(i);
+            current_trials{i, j}.theta_v = theta_v(j);
+            current_trials{i, j}.correct = false;
         end
     end
 end
 
 len = size(degradation,2) * size(theta_v,2);
 
-current_trial = reshape(current_trial,[1,len]);
+current_trials = reshape(current_trials,[1,len]);
 
-trial_rand = current_trial(randperm(length(current_trial)));
+trial_rand = current_trials(randperm(length(current_trials)));
 
 %% DOT SETUP
 % Colour intensity
