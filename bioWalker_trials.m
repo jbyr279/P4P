@@ -8,7 +8,7 @@ clearvars;
 PsychDefaultSetup(2);
 
 % Set window to opacity for debugging 
-PsychDebugWindowConfiguration(0, 0.8);
+% PsychDebugWindowConfiguration(0, 0.5);
 
 % Get the screen numbers
 screens = Screen('Screens');
@@ -80,12 +80,18 @@ life_count = 0;
 len = 1000;
 scale = 2;
 
-done = false;
+[keyIsDown, secs, keyCode, deltaSecs] = KbCheck;
 
  for trial = 1:size(trial_rand, 2)
-    while ~KbCheck
+    % Reset KbCheck
+    keyIsDown = false;
+    while ~keyIsDown
+
+        [keyIsDown, secs, keyCode, deltaSecs] = KbCheck;
+        input = KbName(keyCode);
+
         if mod(life_count, len / 50) == 0
-            trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat');
+             trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat');
         end
     
         % Extract dotXpos and dotYpos and apply to dot on screen 
@@ -114,13 +120,14 @@ done = false;
             data_count = 1;
         end
     end
+    pause(1);
 end
 
 % Concept for automating 
 [~, ~, keyCode, ~] = KbCheck;
 disp(KbName(keyCode));
 
-% pause(2);
+pause(2);
 
 % Clear screen
 sca;
