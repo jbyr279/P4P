@@ -26,16 +26,19 @@ screenNumber = max(screens);
 ifi = Screen('GetFlipInterval', window);
 
 %% TRIAL MATRIX SETUP 
-current_trial = cell(1,16);
+numTrials = 4;
+current_trial = {};
 
 theta_v = [90, 120, 150, 180];
 degradation = [7, 14, 21, 28];
 
 for i = 1:size(degradation,2)
     for j = 1:size(theta_v,2)
-        current_trial{i,j}.degradation = degradation(i);
-        current_trial{i,j}.theta_v = theta_v(j);
-        current_trial{i,j}.correct = false;
+        for k = 1:numTrials
+            current_trial{i,j}.degradation = degradation(i);
+            current_trial{i,j}.theta_v = theta_v(j);
+            current_trial{i,j}.correct = false;
+        end
     end
 end
 
