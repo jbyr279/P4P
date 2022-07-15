@@ -25,30 +25,6 @@ screenNumber = max(screens);
 % Query the frame duration
 ifi = Screen('GetFlipInterval', window);
 
-%% TRAJ. SETUP
-% trajFiles = dir('TrajectoryData/*.mat');
-% 
-% noOfMarkers = 28;
-% visibleMarkers = 28;
-% remove = noOfMarkers - visibleMarkers;
-% randIndex = randperm(length(trajFiles), remove);
-% index = 1;
-% 
-% for i=1:length(trajFiles)
-%     
-%     if ~(ismember(i, randIndex))
-%         trajData{1,index} = trajFiles(i).name;
-%         trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
-% 
-%         data = trajData{2,index}.array;
-%         data(4,:) = [];
-%         transData = rotateAxis(data, 135, "profile");
-%         trajData{2,index}.array = transData;
-% 
-%         index = index + 1;
-%     end
-% end
-
 %% TRIAL MATRIX SETUP 
 current_trial = {};
 
@@ -62,6 +38,12 @@ for i = 1:size(degradation,2)
         current_trial{i,j}.correct = false;
     end
 end
+
+len = size(degradation,2) * size(theta_v,2);
+
+current_trial = reshape(current_trial,[1,len]);
+
+trial_rand = currnet_trial(randperm(length(current_trial)));
 
 %% DOT SETUP
 % Colour intensity
@@ -100,62 +82,62 @@ scale = 2;
 
 done = false;
 
-while ~KbCheck
-    if mod(life_count, len / 50) == 0
-        trajFiles = dir('TrajectoryData/*.mat');
-        
-        noOfMarkers = 28;
-        visibleMarkers = 28;
-        remove = noOfMarkers - visibleMarkers;
-        randIndex = randperm(length(trajFiles), remove);
-        index = 1;
-        
-        for i=1:length(trajFiles)
-            if ~(ismember(i, randIndex))
-                trajData{1,index} = trajFiles(i).name;
-                trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
-
-                data = trajData{2,index}.array;
-                data(4,:) = [];
-                transData = rotateAxis(data, 90, "profile");
-                trajData{2,index}.array = transData;
-
-                index = index + 1;
+for row = 1:size(rand_trial, 1)
+    while(~KbCheck)
+        if mod(life_count, len / 50) == 0
+            trajFiles = dir('TrajectoryData/*.mat');
+            
+            noOfMarkers = 28;
+            visibleMarkers = 28;
+            remove = noOfMarkers - visibleMarkers;
+            randIndex = randperm(length(trajFiles), remove);
+            index = 1;
+            
+            for i=1:length(trajFiles)
+                if ~(ismember(i, randIndex))
+                    trajData{1,index} = trajFiles(i).name;
+                    trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
+    
+                    data = trajData{2,index}.array;
+                    data(4,:) = [];
+                    transData = rotateAxis(data, 90, "profile");
+                    trajData{2,index}.array = transData;
+    
+                    index = index + 1;
+                end
             end
         end
+    
+        % Extract dotXpos and dotYpos and apply to dot on screen 
+        for i = 1:length(trajData)
+            % data_count*0.1 is an offset for our specific data subject's
+            % uwitting speed during data capture
+            dotXpos = trajData{2, i}.array(1, data_count)/scale;
+            dotYpos = -trajData{2, i}.array(3, data_count)/scale;
+    
+            Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
+        end
+    
+        % Flip to the screen
+        vbl  = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
+    
+        % Increment the time
+        time = time + ifi;
+    
+        data_count = data_count + 1;
+        if (data_count >= len)
+            data_count = 1;
+        end
+        
+        life_count = life_count + 1;
+        if (data_count >= len)
+            data_count = 1;
+        end
+    
+    
+    
+
     end
-
-    % Extract dotXpos and dotYpos and apply to dot on screen 
-    for i = 1:length(trajData)
-        % data_count*0.1 is an offset for our specific data subject's
-        % uwitting speed during data capture
-        dotXpos = trajData{2, i}.array(1, data_count)/scale;
-        dotYpos = -trajData{2, i}.array(3, data_count)/scale;
-
-        Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
-    end
-
-    % Flip to the screen
-    vbl  = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
-
-    % Increment the time
-    time = time + ifi;
-
-    data_count = data_count + 1;
-    if (data_count >= len)
-        data_count = 1;
-    end
-
-    life_count = life_count + 1;
-    if (data_count >= len)
-        data_count = 1;
-    end
-
-
-
-
-
-
 end
 
 % Concept for automating 
