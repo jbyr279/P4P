@@ -26,7 +26,7 @@ screenNumber = max(screens);
 ifi = Screen('GetFlipInterval', window);
 
 %% TRIAL MATRIX SETUP 
-current_trial = {};
+current_trial = cell(1,16);
 
 theta_v = [90, 120, 150, 180];
 degradation = [7, 14, 21, 28];
@@ -82,7 +82,7 @@ scale = 2;
 
 inputKey = cell(1,16);
 
- for trial = 1:size(trial_rand, 2)
+for trial = 1:size(trial_rand, 2)
     keyIsDown = false;
     while ~keyIsDown
 
@@ -109,28 +109,14 @@ inputKey = cell(1,16);
         % Increment the time
         time = time + ifi;
     
-        data_count = data_count + 1;
-        if (data_count >= len)
-            data_count = 1;
-        end
-    
-        life_count = life_count + 1;
-        if (data_count >= len)
-            data_count = 1;
-        end
+        data_count = incrementValues(data_count, len);
+        life_count = incrementValues(life_count, len);
+
     end
     pause(1);
 
-    if (trial_rand{trial}.theta_v == 90)
-        trial_rand{trial}.correct = (strcmp(inputKey{trial}, '1!'));
-    elseif  (trial_rand{trial}.theta_v == 120)
-        trial_rand{trial}.correct = (strcmp(inputKey{trial}, '2@'));
-    elseif (trial_rand{trial}.theta_v == 150)
-        trial_rand{trial}.correct = (strcmp(inputKey{trial}, '3#'));
-    elseif (trial_rand{trial}.theta_v == 180)
-        trial_rand{trial}.correct = (strcmp(inputKey{trial}, '4$'));
-    end
- end
+    trial_rand = populateCorrect(trial_rand, trial, inputKey{trial});
+end
 
 % Clear screen
 sca;
