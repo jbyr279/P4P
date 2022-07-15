@@ -29,7 +29,7 @@ ifi = Screen('GetFlipInterval', window);
 trajFiles = dir('TrajectoryData/*.mat');
 
 noOfMarkers = 28;
-visibleMarkers = 4;
+visibleMarkers = 20;
 remove = noOfMarkers - visibleMarkers;
 randIndex = randperm(length(trajFiles), remove);
 index = 1;
