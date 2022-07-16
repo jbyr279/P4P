@@ -8,7 +8,7 @@ clearvars;
 PsychDefaultSetup(2);
 
 % Set window to opacity for debugging 
-PsychDebugWindowConfiguration(0, 0.8);
+PsychDebugWindowConfiguration(0, 0.2);
 
 % Get the screen numbers
 screens = Screen('Screens');
@@ -25,42 +25,15 @@ screenNumber = max(screens);
 % Query the frame duration
 ifi = Screen('GetFlipInterval', window);
 
-%% TRAJ. SETUP
-% trajFiles = dir('TrajectoryData/*.mat');
-% 
-% noOfMarkers = 28;
-% visibleMarkers = 28;
-% remove = noOfMarkers - visibleMarkers;
-% randIndex = randperm(length(trajFiles), remove);
-% index = 1;
-% 
-% for i=1:length(trajFiles)
-%     
-%     if ~(ismember(i, randIndex))
-%         trajData{1,index} = trajFiles(i).name;
-%         trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
-% 
-%         data = trajData{2,index}.array;
-%         data(4,:) = [];
-%         transData = rotateAxis(data, 135, "profile");
-%         trajData{2,index}.array = transData;
-% 
-%         index = index + 1;
-%     end
-% end
-
 %% TRIAL MATRIX SETUP 
-current_trial = {};
-
-theta_v = [0, 30, 60, 90];
+num_trials = 4;
+theta_v = [90, 120, 150, 180];
 degradation = [7, 14, 21, 28];
 
-for i = 1:size(degradation,2)
-    for j = 1:size(theta_v,2)
-        current_trial{i,j}.degradation = degradation(i);
-        current_trial{i,j}.theta_v = theta_v(j);
-        current_trial{i,j}.correct = false;
-    end
+trial_rand = {};
+
+for i = 1:num_trials
+    trial_rand = [trial_rand, randomiseTrials(theta_v, degradation)];
 end
 
 %% DOT SETUP
@@ -98,71 +71,48 @@ life_count = 0;
 len = 1000;
 scale = 2;
 
-done = false;
+inputKey = cell(1,16);
 
-while ~KbCheck
-    if mod(life_count, len / 50) == 0
-        trajFiles = dir('TrajectoryData/*.mat');
-        
-        noOfMarkers = 28;
-        visibleMarkers = 23;
-        remove = noOfMarkers - visibleMarkers;
-        randIndex = randperm(length(trajFiles), remove);
-        index = 1;
-        
-        for i=1:length(trajFiles)
-            if ~(ismember(i, randIndex))
-                trajData{1,index} = trajFiles(i).name;
-                trajData{2,index} = load(['TrajectoryData/', trajFiles(i).name]);
+for trial = 1:size(trial_rand, 2)
+    keyIsDown = false;
+    while ~keyIsDown
 
-                data = trajData{2,index}.array;
-                data(4,:) = [];
-                transData = rotateAxis(data, 0, "profile");
-                trajData{2,index}.array = transData;
+        [keyIsDown, ~, keyCode, ~] = KbCheck;
+        trial_rand{trial}.inputKey = KbName(keyCode);
 
-                index = index + 1;
-            end
+        if mod(life_count, len / 50) == 0
+             trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
         end
+        
+        % Extract dotXpos and dotYpos and apply to dot on screen 
+        for i = 1:length(trajData)
+            % data_count*0.1 is an offset for our specific data subject's
+            % uwitting speed during data capture
+            dotXpos = trajData{2, i}.array(1, data_count)/scale;
+            dotYpos = -trajData{2, i}.array(3, data_count)/scale;
+    
+            Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
+        end
+    
+        % Flip to the screen
+        if time <= 3
+            vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
+        end
+    
+        % Increment the time
+        time = time + ifi;
+    
+        data_count = incrementValues(data_count, len);
+        life_count = incrementValues(life_count, len);
     end
+    pause(0.5);
 
-    % Extract dotXpos and dotYpos and apply to dot on screen 
-    for i = 1:length(trajData)
-        % data_count*0.1 is an offset for our specific data subject's
-        % uwitting speed during data capture
-        dotXpos = trajData{2, i}.array(1, data_count)/scale;
-        dotYpos = -trajData{2, i}.array(3, data_count)/scale;
-
-        Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
-    end
-
-    % Flip to the screen
-    vbl  = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
-
-    % Increment the time
-    time = time + ifi;
-
-    data_count = data_count + 1;
-    if (data_count >= len)
-        data_count = 1;
-    end
-
-    life_count = life_count + 1;
-    if (data_count >= len)
-        data_count = 1;
-    end
-
-
-
-
-
-
+    trial_rand = populateCorrect(trial_rand, trial, trial_rand{trial}.inputKey);
+    time = 0;
 end
-
-% Concept for automating 
-[~, ~, keyCode, ~] = KbCheck;
-disp(KbName(keyCode));
-
-% pause(2);
 
 % Clear screen
 sca;
+
+% Keep useful vars
+clearvars -except trial_rand;
