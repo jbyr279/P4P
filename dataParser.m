@@ -1,10 +1,10 @@
 function standardArray = dataParser(randomisedTrials)
-    
+    % Convert to 4x4 standard
     standardArray = zeros(4);
     for i = 1:length(randomisedTrials)
-        row = randomisedTrials{i}.degradation/7;
-        col = randomisedTrials{i}.theta_v/30 - 2;
-        standardArray(row, col) = randomisedTrials{i}.correct;
+        dot_index = randomisedTrials{i}.degradation/7;
+        theta_index = randomisedTrials{i}.theta_v/30 - 2;
+        standardArray(theta_index, dot_index) = randomisedTrials{i}.correct;
     end
 end
     
