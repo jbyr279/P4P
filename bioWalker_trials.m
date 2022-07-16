@@ -78,7 +78,7 @@ for trial = 1:size(trial_rand, 2)
     while ~keyIsDown
 
         [keyIsDown, ~, keyCode, ~] = KbCheck;
-        inputKey{trial} = KbName(keyCode);
+        trial_rand{trial}.inputKey = KbName(keyCode);
 
         if mod(life_count, len / 50) == 0
              trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat');
@@ -95,7 +95,7 @@ for trial = 1:size(trial_rand, 2)
         end
     
         % Flip to the screen
-        if time <= 10
+        if time <= 4
             vbl  = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
         end
     
@@ -107,9 +107,12 @@ for trial = 1:size(trial_rand, 2)
     end
     pause(1);
 
-    trial_rand = populateCorrect(trial_rand, trial, inputKey{trial});
+    trial_rand = populateCorrect(trial_rand, trial, trial_rand{trial}.inputKey);
     time = 0;
 end
 
 % Clear screen
 sca;
+
+% Keep useful vars
+clearvars -except trial_rand;

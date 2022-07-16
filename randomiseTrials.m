@@ -6,6 +6,7 @@ function trial_rand_1D = randomiseTrials(theta_v, degradation)
             current_trials{i, j}.degradation = degradation(i);
             current_trials{i, j}.theta_v = theta_v(j);
             current_trials{i, j}.correct = false;
+            current_trials{i, j}.inputKey = "";
         end
     end
     
