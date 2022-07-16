@@ -30,27 +30,11 @@ numTrials = 4;
 theta_v = [90, 120, 150, 180];
 degradation = [7, 14, 21, 28];
 
-current_trials = cell(size(degradation,2), size(theta_v,2));
+trial_rand = {};
 
-for i = 1:size(degradation,2)
-    for j = 1:size(theta_v,2)
-        current_trials{i, j}.degradation = degradation(i);
-        current_trials{i, j}.theta_v = theta_v(j);
-        current_trials{i, j}.correct = false;
-    end
+for i = 1:numTrials
+    trial_rand = [trial_rand, randomiseTrials(theta_v, degradation)];
 end
-
-len = size(degradation,2) * size(theta_v,2);
-current_trials = reshape(current_trials,[1,len]);
-
-for i = 1:numTrials-1
-    current_trials{:, i+1} = current_trials{:, i};
-end
-
-len = size(degradation,2) * size(theta_v,2) * numTrials;
-current_trials = reshape(current_trials,[1,len]);
-
-trial_rand = current_trials(randperm(length(current_trials)));
 
 %% DOT SETUP
 % Colour intensity
@@ -118,7 +102,6 @@ for trial = 1:size(trial_rand, 2)
     
         data_count = incrementValues(data_count, len);
         life_count = incrementValues(life_count, len);
-
     end
     pause(1);
 
