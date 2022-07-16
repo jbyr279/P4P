@@ -26,7 +26,7 @@ screenNumber = max(screens);
 ifi = Screen('GetFlipInterval', window);
 
 %% TRIAL MATRIX SETUP 
-num_trials = 4;
+num_trials = 1;
 theta_v = [90, 120, 150, 180];
 degradation = [7, 14, 21, 28];
 
@@ -36,7 +36,7 @@ for i = 1:num_trials
     trial_rand = [trial_rand, randomiseTrials(theta_v, degradation)];
 end
 
-%% DOT SETUP
+%% DOT SETUP2
 % Colour intensity
 colourLevel = 1;
 
@@ -114,5 +114,10 @@ end
 % Clear screen
 sca;
 
+matrix = dataParser(trial_rand);
+
 % Keep useful vars
-clearvars -except trial_rand;
+clearvars -except matrix num_trials;
+
+name = input("Trial Subject Name: ", "s");
+save(append('PrelimTrialData\', date, '-', name, '.mat'))

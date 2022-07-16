@@ -26,7 +26,7 @@ screenNumber = max(screens);
 ifi = Screen('GetFlipInterval', window);
 
 %% TRIAL MATRIX SETUP 
-num_trials = 4;
+num_trials = 1;
 theta_v = [90, 120, 150, 180];
 degradation = [7, 14, 21, 28];
 
@@ -36,7 +36,7 @@ for i = 1:num_trials
     trial_rand = [trial_rand, randomiseTrials(theta_v, degradation)];
 end
 
-%% DOT SETUP
+%% DOT SETUP2
 % Colour intensity
 colourLevel = 1;
 
@@ -81,14 +81,14 @@ for trial = 1:size(trial_rand, 2)
         trial_rand{trial}.inputKey = KbName(keyCode);
 
         if mod(life_count, len / 50) == 0
-             trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat');
+             trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
         end
-    
+        
         % Extract dotXpos and dotYpos and apply to dot on screen 
         for i = 1:length(trajData)
             % data_count*0.1 is an offset for our specific data subject's
             % uwitting speed during data capture
-            dotXpos = trajData{2, i}.array(1, data_count)/scale + (-10/3*trial_rand{trial}.theta_v + 700);
+            dotXpos = trajData{2, i}.array(1, data_count)/scale;
             dotYpos = -trajData{2, i}.array(3, data_count)/scale;
     
             Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
@@ -105,7 +105,7 @@ for trial = 1:size(trial_rand, 2)
         data_count = incrementValues(data_count, len);
         life_count = incrementValues(life_count, len);
     end
-    pause(1);
+    pause(0.5);
 
     trial_rand = populateCorrect(trial_rand, trial, trial_rand{trial}.inputKey);
     time = 0;
@@ -116,3 +116,6 @@ sca;
 
 % Keep useful vars
 clearvars -except trial_rand;
+
+name = input("Trial Subject Name: ", "s");
+save(append('PrelimTrialData\', date, '-', name, '.mat'))
