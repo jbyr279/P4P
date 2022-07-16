@@ -95,7 +95,9 @@ for trial = 1:size(trial_rand, 2)
         end
     
         % Flip to the screen
-        vbl  = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
+        if time <= 10
+            vbl  = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
+        end
     
         % Increment the time
         time = time + ifi;
@@ -106,10 +108,8 @@ for trial = 1:size(trial_rand, 2)
     pause(1);
 
     trial_rand = populateCorrect(trial_rand, trial, inputKey{trial});
+    time = 0;
 end
 
 % Clear screen
 sca;
-
-
-
