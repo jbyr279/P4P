@@ -26,14 +26,14 @@ screenNumber = max(screens);
 ifi = Screen('GetFlipInterval', window);
 
 %% TRIAL MATRIX SETUP 
-numTrials = 4;
+num_trials = 4;
 theta_v = [90, 120, 150, 180];
 degradation = [7, 14, 21, 28];
 
-total_trials = cell(1, numTrials*16);
+trial_rand = {};
 
-for i = 1:numTrials
-    total_trials = [total_trials, randomiseTrials(theta_v, degradation)];
+for i = 1:num_trials
+    trial_rand = [trial_rand, randomiseTrials(theta_v, degradation)];
 end
 
 %% DOT SETUP
@@ -78,7 +78,7 @@ for trial = 1:size(trial_rand, 2)
     while ~keyIsDown
 
         [keyIsDown, ~, keyCode, ~] = KbCheck;
-        inputKey{trial} = KbName(keyCode);
+        trial_rand{trial}.inputKey = KbName(keyCode);
 
         if mod(life_count, len / 50) == 0
              trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat');
@@ -88,29 +88,31 @@ for trial = 1:size(trial_rand, 2)
         for i = 1:length(trajData)
             % data_count*0.1 is an offset for our specific data subject's
             % uwitting speed during data capture
-            dotXpos = trajData{2, i}.array(1, data_count)/scale;
+            dotXpos = trajData{2, i}.array(1, data_count)/scale + (-10/3*trial_rand{trial}.theta_v + 700);
             dotYpos = -trajData{2, i}.array(3, data_count)/scale;
     
             Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
         end
     
         % Flip to the screen
-        vbl  = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
+        if time <= 3
+            vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
+        end
     
         % Increment the time
         time = time + ifi;
     
         data_count = incrementValues(data_count, len);
         life_count = incrementValues(life_count, len);
-
     end
     pause(1);
 
-    trial_rand = populateCorrect(trial_rand, trial, inputKey{trial});
+    trial_rand = populateCorrect(trial_rand, trial, trial_rand{trial}.inputKey);
+    time = 0;
 end
 
 % Clear screen
 sca;
 
-
-
+% Keep useful vars
+clearvars -except trial_rand;

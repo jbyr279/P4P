@@ -26,13 +26,13 @@ screenNumber = max(screens);
 ifi = Screen('GetFlipInterval', window);
 
 %% TRIAL MATRIX SETUP 
-numTrials = 4;
+num_trials = 4;
 theta_v = [90, 120, 150, 180];
 degradation = [7, 14, 21, 28];
 
 trial_rand = {};
 
-for i = 1:numTrials
+for i = 1:num_trials
     trial_rand = [trial_rand, randomiseTrials(theta_v, degradation)];
 end
 
@@ -81,9 +81,9 @@ for trial = 1:size(trial_rand, 2)
         trial_rand{trial}.inputKey = KbName(keyCode);
 
         if mod(life_count, len / 50) == 0
-             trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat');
+             trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
         end
-    
+        
         % Extract dotXpos and dotYpos and apply to dot on screen 
         for i = 1:length(trajData)
             % data_count*0.1 is an offset for our specific data subject's
@@ -95,8 +95,8 @@ for trial = 1:size(trial_rand, 2)
         end
     
         % Flip to the screen
-        if time <= 4
-            vbl  = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
+        if time <= 3
+            vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
         end
     
         % Increment the time
@@ -105,7 +105,7 @@ for trial = 1:size(trial_rand, 2)
         data_count = incrementValues(data_count, len);
         life_count = incrementValues(life_count, len);
     end
-    pause(1);
+    pause(0.5);
 
     trial_rand = populateCorrect(trial_rand, trial, trial_rand{trial}.inputKey);
     time = 0;

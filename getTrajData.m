@@ -1,5 +1,5 @@
 % Load in trajectory data
-function trajData = getTrajData(visibleMarkers, viewpointAngle, directory)
+function trajData = getTrajData(visibleMarkers, viewpointAngle, directory, scale)
     trajFiles = dir(directory);
     
     remove = 28 - visibleMarkers;
@@ -16,6 +16,7 @@ function trajData = getTrajData(visibleMarkers, viewpointAngle, directory)
             data(4,:) = [];
             transData = rotateAxis(data, viewpointAngle, "profile");
             trajData{2,index}.array = transData;
+            trajData{2,index}.array(1, :) = trajData{2,index}.array(1, :) + scale*(-4.5*viewpointAngle + 805);
     
             index = index + 1;
         end
