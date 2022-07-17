@@ -76,12 +76,14 @@ inputKey = cell(1,size(theta_v,2)*size(degradation,2));
 for trial = 1:size(trial_rand, 2)
     % Flash grey
     Screen('FillRect', window, [0.5, 0.5, 0.5]);
-    vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
+    vbl = Screen('Flip', window);
+
     pause(0.5);
 
     % Reset black
     Screen('FillRect', window, [0, 0, 0]);
-    vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
+    vbl = Screen('Flip', window);
+
     while (~validKey(trial_rand{trial}.inputKey))
         [~, ~, keyCode, ~] = KbCheck;
         trial_rand{trial}.inputKey = KbName(keyCode);
@@ -102,7 +104,7 @@ for trial = 1:size(trial_rand, 2)
         end
     
         % Flip to the screen
-        vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
+        vbl = Screen('Flip', window); %, vbl + (waitframes - 0.5) * ifi);
     
         % Increment the time
         time = time + ifi;
