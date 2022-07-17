@@ -74,17 +74,15 @@ scale = 2;
 inputKey = cell(1,size(theta_v,2)*size(degradation,2));
 
 for trial = 1:size(trial_rand, 2)
-    keyIsDown = false;
-    while ~keyIsDown
-
-        [keyIsDown, ~, keyCode, ~] = KbCheck;
+    while (~validKey(trial_rand{trial}.inputKey))
+        [~, ~, keyCode, ~] = KbCheck;
         trial_rand{trial}.inputKey = KbName(keyCode);
 
         if mod(life_count, len / 50) == 0
              trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
         end
         
-        % Extract dotXpos and dotYpos and apply to dot on screen 
+        % Extract dotXpos and dotYpos and apply to dot on screen
         for i = 1:length(trajData)
             % data_count*0.1 is an offset for our specific data subject's
             % uwitting speed during data capture
