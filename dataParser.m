@@ -4,8 +4,9 @@ function standardArray = dataParser(randomisedTrials, theta_v, degradation)
     for i = 1:length(randomisedTrials)
         dot_index = randomisedTrials{i}.degradation/min(degradation);
         theta_index = randomisedTrials{i}.theta_v/30 - 2;
-        standardArray(theta_index, dot_index) = randomisedTrials{i}.correct;
+        standardArray(theta_index, dot_index) = standardArray(theta_index, dot_index) + randomisedTrials{i}.correct;
     end
+%     standardArray = standardArray/numTrials;
 end
     
     

@@ -26,7 +26,7 @@ screenNumber = max(screens);
 ifi = Screen('GetFlipInterval', window);
 
 %% TRIAL MATRIX SETUP 
-num_trials = 1;
+num_trials = 2;
 theta_v = [90, 120, 150, 180];
 degradation = [4, 8, 12, 16, 20, 24, 28]; % 7, 14, 21, 28
 
@@ -101,7 +101,7 @@ for trial = 1:size(trial_rand, 2)
     
         % Increment the time
         time = time + ifi;
-        
+
         data_count = incrementValues(data_count, len);
         life_count = incrementValues(life_count, len);
     end
