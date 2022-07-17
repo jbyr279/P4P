@@ -11,7 +11,7 @@ function trial_rand_1D = randomiseTrials(theta_v, degradation)
     end
     
     len = size(degradation,2) * size(theta_v,2);
-    current_trials = reshape(current_trials,[1,len]); % 1x16 array of current trial
+    current_trials = reshape(current_trials,[1,len]);
     
     trial_rand_1D = current_trials(randperm(length(current_trials)));
 end
