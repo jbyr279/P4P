@@ -74,6 +74,14 @@ scale = 2;
 inputKey = cell(1,size(theta_v,2)*size(degradation,2));
 
 for trial = 1:size(trial_rand, 2)
+    % Flash grey
+    Screen('FillRect', window, [0.5, 0.5, 0.5]);
+    vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
+    pause(0.5);
+
+    % Reset black
+    Screen('FillRect', window, [0, 0, 0]);
+    vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
     while (~validKey(trial_rand{trial}.inputKey))
         [~, ~, keyCode, ~] = KbCheck;
         trial_rand{trial}.inputKey = KbName(keyCode);
@@ -83,19 +91,18 @@ for trial = 1:size(trial_rand, 2)
         end
         
         % Extract dotXpos and dotYpos and apply to dot on screen
-        for i = 1:length(trajData)
-            % data_count*0.1 is an offset for our specific data subject's
-            % uwitting speed during data capture
-            dotXpos = trajData{2, i}.array(1, data_count)/scale;
-            dotYpos = -trajData{2, i}.array(3, data_count)/scale;
-    
-            Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
+        if time <= 3
+            for i = 1:length(trajData)
+                dotXpos = trajData{2, i}.array(1, data_count)/scale;
+                dotYpos = -trajData{2, i}.array(3, data_count)/scale;
+                Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
+            end
+        else
+            Screen('FillRect', window, [0.5, 0.5, 0.5]);
         end
     
         % Flip to the screen
-        if time <= 3
-            vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
-        end
+        vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
     
         % Increment the time
         time = time + ifi;
