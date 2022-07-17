@@ -65,9 +65,7 @@ Screen('Flip', window);
 
 time = 0;
 data_count = 1;
-life_count = 0;
 
-% len = size(trajData{2, 1}.array, 2);
 len = 1000;
 scale = 2;
 
@@ -76,21 +74,19 @@ inputKey = cell(1,size(theta_v,2)*size(degradation,2));
 for trial = 1:size(trial_rand, 2)
     % Flash grey
     Screen('FillRect', window, [0.5, 0.5, 0.5]);
-    vbl = Screen('Flip', window);
+    Screen('Flip', window);
 
     pause(0.5);
 
     % Reset black
     Screen('FillRect', window, [0, 0, 0]);
-    vbl = Screen('Flip', window);
+    Screen('Flip', window);
+
+    trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
 
     while (~validKey(trial_rand{trial}.inputKey))
         [~, ~, keyCode, ~] = KbCheck;
         trial_rand{trial}.inputKey = KbName(keyCode);
-
-        if mod(life_count, len / 50) == 0
-             trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
-        end
         
         % Extract dotXpos and dotYpos and apply to dot on screen
         if time <= 3
@@ -100,22 +96,22 @@ for trial = 1:size(trial_rand, 2)
                 Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
             end
         else
-            Screen('FillRect', window, [0.5, 0.5, 0.5]);
+            Screen('FillRect', window, [0.5, 0, 0]);
         end
     
         % Flip to the screen
-        vbl = Screen('Flip', window); %, vbl + (waitframes - 0.5) * ifi);
+        Screen('Flip', window);
     
         % Increment the time
         time = time + ifi;
 
         data_count = incrementValues(data_count, len);
-        life_count = incrementValues(life_count, len);
     end
     pause(0.5);
 
     trial_rand = populateCorrect(trial_rand, trial, trial_rand{trial}.inputKey);
     time = 0;
+    data_count = 1;
 end
 
 % Clear screen
