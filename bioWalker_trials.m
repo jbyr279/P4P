@@ -8,12 +8,10 @@ clearvars;
 PsychDefaultSetup(2);
 
 % Set window to opacity for debugging 
-PsychDebugWindowConfiguration(0, 0.2);
+PsychDebugWindowConfiguration(0, 1);
 
 % Get the screen numbers
 screens = Screen('Screens');
-
-% Draw to the external screen if avaliable
 screenNumber = max(screens);
 
 % Open an on screen window
@@ -28,7 +26,7 @@ ifi = Screen('GetFlipInterval', window);
 %% TRIAL MATRIX SETUP 
 num_trials = 2;
 theta_v = [90, 120, 150, 180];
-degradation = [4, 8, 12, 16, 20, 24, 28]; % 7, 14, 21, 28
+degradation = [4, 8, 12, 16, 20, 24, 28];
 
 trial_rand = {};
 
