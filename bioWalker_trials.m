@@ -8,12 +8,10 @@ clearvars;
 PsychDefaultSetup(2);
 
 % Set window to opacity for debugging 
-PsychDebugWindowConfiguration(0, 0.2);
+PsychDebugWindowConfiguration(0, 1);
 
 % Get the screen numbers
 screens = Screen('Screens');
-
-% Draw to the external screen if avaliable
 screenNumber = max(screens);
 
 % Open an on screen window
@@ -26,9 +24,9 @@ screenNumber = max(screens);
 ifi = Screen('GetFlipInterval', window);
 
 %% TRIAL MATRIX SETUP 
-num_trials = 4;
+num_trials = 2;
 theta_v = [90, 120, 150, 180];
-degradation = [7, 14, 21, 28];
+degradation = [4, 8, 12, 16, 20, 24, 28];
 
 trial_rand = {};
 
@@ -36,7 +34,7 @@ for i = 1:num_trials
     trial_rand = [trial_rand, randomiseTrials(theta_v, degradation)];
 end
 
-%% DOT SETUP
+%% DOT SETUP2
 % Colour intensity
 colourLevel = 1;
 
@@ -65,54 +63,62 @@ Screen('Flip', window);
 
 time = 0;
 data_count = 1;
-life_count = 0;
 
-% len = size(trajData{2, 1}.array, 2);
 len = 1000;
 scale = 2;
 
-inputKey = cell(1,16);
+inputKey = cell(1,size(theta_v,2)*size(degradation,2));
 
 for trial = 1:size(trial_rand, 2)
-    keyIsDown = false;
-    while ~keyIsDown
+    % Flash grey
+    Screen('FillRect', window, [0.5, 0.5, 0.5]);
+    Screen('Flip', window);
 
-        [keyIsDown, ~, keyCode, ~] = KbCheck;
+    pause(0.5);
+
+    % Reset black
+    Screen('FillRect', window, [0, 0, 0]);
+    Screen('Flip', window);
+
+    trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
+
+    while (~validKey(trial_rand{trial}.inputKey))
+        [~, ~, keyCode, ~] = KbCheck;
         trial_rand{trial}.inputKey = KbName(keyCode);
-
-        if mod(life_count, len / 50) == 0
-             trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
-        end
         
-        % Extract dotXpos and dotYpos and apply to dot on screen 
-        for i = 1:length(trajData)
-            % data_count*0.1 is an offset for our specific data subject's
-            % uwitting speed during data capture
-            dotXpos = trajData{2, i}.array(1, data_count)/scale;
-            dotYpos = -trajData{2, i}.array(3, data_count)/scale;
-    
-            Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
+        % Extract dotXpos and dotYpos and apply to dot on screen
+        if time <= 3
+            for i = 1:length(trajData)
+                dotXpos = trajData{2, i}.array(1, data_count)/scale;
+                dotYpos = -trajData{2, i}.array(3, data_count)/scale;
+                Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, white, dotCenter, 2);
+            end
+        else
+            Screen('FillRect', window, [0.5, 0, 0]);
         end
     
         % Flip to the screen
-        if time <= 3
-            vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
-        end
+        Screen('Flip', window);
     
         % Increment the time
         time = time + ifi;
-    
+
         data_count = incrementValues(data_count, len);
-        life_count = incrementValues(life_count, len);
     end
     pause(0.5);
 
     trial_rand = populateCorrect(trial_rand, trial, trial_rand{trial}.inputKey);
     time = 0;
+    data_count = 1;
 end
 
 % Clear screen
 sca;
 
+matrix = dataParser(trial_rand, theta_v, degradation);
+
 % Keep useful vars
-clearvars -except trial_rand;
+clearvars -except matrix num_trials;
+
+name = input("Trial Subject Name: ", "s");
+save(append('PrelimTrialData\', date, '-', name, '.mat'))
