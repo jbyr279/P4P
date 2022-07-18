@@ -108,11 +108,13 @@ for trial = 1:size(trial_rand, 2)
         time = time + ifi;
 
         data_count = incrementValues(data_count, time) + 1;
+
     end
     pause(0.5);
 
     trial_rand = populateCorrect(trial_rand, trial, trial_rand{trial}.inputKey);
     time = 0;
+    data_count = 1;
 end
 
 % Clear screen
