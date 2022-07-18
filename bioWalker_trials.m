@@ -26,7 +26,7 @@ ifi = Screen('GetFlipInterval', window);
 %% TRIAL MATRIX SETUP 
 num_trials = 1;
 theta_v = [90, 120, 150, 180];
-degradation = [4, 8, 12111];
+degradation = [4, 8, 12, 16, 20, 24, 28];
 eccentricity = [0, 20, 40, 60];
 
 trial_rand = {};
@@ -134,4 +134,4 @@ matrix = dataParser(trial_rand, theta_v, degradation, eccentricity);
 clearvars -except matrix num_trials;
 
 name = input("Trial Subject Name: ", "s");
-save(append('PrelimTrialData\Angle', '\', date, '-', name, '.mat'))
+save(append('PrelimTrialData\', date, '-', name, '.mat'))
