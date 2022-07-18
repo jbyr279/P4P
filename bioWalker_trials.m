@@ -112,6 +112,7 @@ for trial = 1:size(trial_rand, 2)
         life_count = incrementValues(life_count, time);
 
     end
+    data_count = 1;
     pause(0.5);
 
     trial_rand = populateCorrect(trial_rand, trial, trial_rand{trial}.inputKey);
@@ -127,4 +128,5 @@ matrix = dataParser(trial_rand, theta_v, degradation);
 clearvars -except matrix num_trials;
 
 name = input("Trial Subject Name: ", "s");
-save(append('PrelimTrialData\', date, '-', name, '.mat'))
+eccentricity = input("Trial Eccentricity Angle: ", "s");
+save(append('PrelimTrialData\Angle', eccentricity, '\', date, '-', name, '.mat'))
