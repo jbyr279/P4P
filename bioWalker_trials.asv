@@ -27,6 +27,7 @@ ifi = Screen('GetFlipInterval', window);
 num_trials = 2;
 theta_v = [90, 120, 150, 180];
 degradation = [4, 8, 12, 16, 20, 24, 28];
+eccentricity = [0, 20];
 
 trial_rand = {};
 
@@ -62,7 +63,7 @@ Priority(topPriorityLevel);
 Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, dotColours, trueDotCenter, 2);
 Screen('Flip', window);
 
-1213324343141343313time = 0;
+time = 0;
 data_count = 1;
 life_count = 0;
 
