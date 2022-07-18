@@ -1,6 +1,6 @@
-function value = incrementValues(value, len)
+function value = incrementValues(value, time)
     value = value + 1;
-        if (value >= len)
+        if (time >= 3)
             value = 1;
         end
 end

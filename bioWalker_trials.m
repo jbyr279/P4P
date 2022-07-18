@@ -40,7 +40,8 @@ colourLevel = 1;
 
 % We can define a center for the dot coordinates to be relaitive to. Here
 % we set the centre to be the centre of the screen
-dotCenter = [(screenXpixels / 2 - 200) (screenYpixels / 2 + 500)];
+trueDotCenter = [(screenXpixels / 2) (screenYpixels / 2)];
+dotCenter = [(screenXpixels / 2 - 140) (screenYpixels / 2 + 500)];
 
 dotYpos = 0;
 dotXpos = 0;
@@ -58,7 +59,7 @@ topPriorityLevel = MaxPriority(window);
 Priority(topPriorityLevel);
 
 % Draw White Dot on screen
-Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, dotColours, dotCenter, 2);
+Screen('DrawDots', window, [dotXpos; dotYpos], dotSizes, dotColours, trueDotCenter, 2);
 Screen('Flip', window);
 
 time = 0;
@@ -81,11 +82,14 @@ for trial = 1:size(trial_rand, 2)
     Screen('Flip', window);
 
     trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
-
     while (~validKey(trial_rand{trial}.inputKey))
         [~, ~, keyCode, ~] = KbCheck;
         trial_rand{trial}.inputKey = KbName(keyCode);
-        
+
+        if (mod(data_count, len/50) == 0)
+            trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
+        end
+
         % Extract dotXpos and dotYpos and apply to dot on screen
         if time <= 3
             for i = 1:length(trajData)
@@ -103,7 +107,8 @@ for trial = 1:size(trial_rand, 2)
         % Increment the time
         time = time + ifi;
 
-        data_count = incrementValues(data_count, len);
+        data_count = incrementValues(data_count, time) + 1;
+
     end
     pause(0.5);
 
