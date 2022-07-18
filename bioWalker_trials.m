@@ -51,7 +51,7 @@ white = WhiteIndex(screenNumber);
 dotColours = white*colourLevel;
 
 % Sync us and get a time stamp
-vbl = Screen('Flip', window);
+Screen('Flip', window);
 waitframes = 1;
 
 % Maximum priority level
@@ -64,6 +64,7 @@ Screen('Flip', window);
 
 time = 0;
 data_count = 1;
+life_count = 0;
 
 len = 1000;
 scale = 2;
@@ -86,7 +87,7 @@ for trial = 1:size(trial_rand, 2)
         [~, ~, keyCode, ~] = KbCheck;
         trial_rand{trial}.inputKey = KbName(keyCode);
 
-        if (mod(data_count, len/50) == 0)
+        if (mod(life_count, len/50) == 0)
             trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
         end
 
@@ -108,13 +109,13 @@ for trial = 1:size(trial_rand, 2)
         time = time + ifi;
 
         data_count = incrementValues(data_count, time) + 1;
+        life_count = incrementValues(life_count, time);
 
     end
     pause(0.5);
 
     trial_rand = populateCorrect(trial_rand, trial, trial_rand{trial}.inputKey);
     time = 0;
-    data_count = 1;
 end
 
 % Clear screen
