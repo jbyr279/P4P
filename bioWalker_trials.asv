@@ -27,12 +27,12 @@ ifi = Screen('GetFlipInterval', window);
 num_trials = 2;
 theta_v = [90, 120, 150, 180];
 degradation = [4, 8, 12, 16, 20, 24, 28];
-eccentricity = [0, 20];
+eccentricity = [0, 20, 40, 60];
 
 trial_rand = {};
 
 for i = 1:num_trials
-    trial_rand = [trial_rand, randomiseTrials(theta_v, degradation)];
+    trial_rand = [trial_rand, randomiseTrials(theta_v, degradation, eccentricity)];
 end
 
 %% DOT SETUP2
@@ -74,7 +74,7 @@ inputKey = cell(1,size(theta_v,2)*size(degradation,2));
 
 for trial = 1:size(trial_rand, 2)
     % Flash grey
-    Screen('FillRect', window, [0.5, 0.5, 0.5]);
+    Screen('DrawText', window, [0.5, 0.5, 0.5]);
     Screen('Flip', window);
 
     pause(0.5);
