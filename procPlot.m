@@ -81,7 +81,7 @@ theta_v = [90, 120, 150, 180];
 
 labels = [];
 
-figure('Position', [400 60 1200 900]);
+figure('Position', [100 60 1700 900]);
 tiledlayout(2,2,"Title",title_);
 
 for j = 1:length(res)
@@ -96,6 +96,8 @@ for j = 1:length(res)
 
         plot(degradation, res{j}(k, :));
         ylim([-0.1 1.1]);
+        xlim([0 40]);
+        
         if j == 1
             labels = [labels, (sprintf(" {\\theta}_v  =  %.2f deg", theta_v(k) - 90))];
         end
@@ -110,7 +112,7 @@ for j = 1:length(res)
 
         hold on
     end
-    legend(labels, 'Location','southeast')
+    legend(labels)
     hold off
 end
 
