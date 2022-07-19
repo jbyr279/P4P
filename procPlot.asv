@@ -4,7 +4,7 @@ close all
 
 % START IN P4P DIRECTORY %
 
-rand = false; %% Randomised blocking => rand = true
+rand = true; %% Randomised blocking => rand = true
 
 if rand
     cd 'C:\Users\joeby\P4P'
@@ -88,11 +88,11 @@ for j = 1:length(res)
     nexttile
     for k = 1:length(theta_v)
         
-%         if rand
-            title(sprintf("%d^o Peripheral Eccentricity ", (j-1)*20));
+        if rand
+            title(sprintf("%d Degree Eccentricity ", (j-1)*20));
 %         else
 %             title(sprintf(subFolderNames{j}(end-2:end)));
-%         end
+        end
 
         plot(degradation, res{j}(k, :));
         ylim([-0.1 1.1]);
@@ -109,8 +109,7 @@ for j = 1:length(res)
         if j == 1 && k == length(theta_v)
             labels = [labels, (" Guess rate: 25.00%")];
         end
-        xlabel("Number of Nodes, {\eta}_d");
-        ylabel("Success Rate, {\rho}");
+
         hold on
     end
     legend(labels)
