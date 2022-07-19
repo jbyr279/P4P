@@ -1,10 +1,10 @@
 clear
 clc
-% close all
+close all
 
 % START IN P4P DIRECTORY %
 
-rand = false; %% Randomised blocking => rand = true
+rand = true; %% Randomised blocking => rand = true
 
 if rand
     cd 'C:\Users\joeby\P4P'
@@ -81,6 +81,7 @@ theta_v = [90, 120, 150, 180];
 
 labels = [];
 
+figure('Position', [400 60 1200 900]);
 tiledlayout(2,2,"Title",title_);
 
 for j = 1:length(res)
