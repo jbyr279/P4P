@@ -97,7 +97,15 @@ for j = 1:length(res)
         plot(degradation, res{j}(k, :));
         ylim([-0.1 1.1]);
         if j == 1
-            labels = [labels, (sprintf("Viewpoint angle: %.2f deg", theta_v(k) - 90))];
+            labels = [labels, (sprintf(" {\\theta}_v  =  %.2f deg", theta_v(k) - 90))];
+        end
+
+        if k == length(theta_v)
+            yline(0.25, 'LineStyle','--');
+        end
+
+        if j == 1 && k == length(theta_v)
+            labels = [labels, (" Guess rate: 25.00%")];
         end
 
         hold on
