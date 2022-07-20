@@ -125,7 +125,7 @@ for i = 1:length(res)
     avg = mean(res{i},1);
     plot(degradation, avg);
     
-    labels = [labels, sprintf(" %d^o Peripheral Eccentricity Mean", (i-1)*ecc(2))];
+    labels = [labels, sprintf(" %d^o Peripheral Eccentricity Mean, {\\mu}_e, where Standard Deviation, {\\sigma} = %.2f", (i-1)*ecc(2), std(avg))];
 
     hold on
 end
