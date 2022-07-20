@@ -8,7 +8,7 @@ clearvars;
 PsychDefaultSetup(2);
 
 % Set window to opacity for debugging 
-PsychDebugWindowConfiguration(0, 0.1);
+PsychDebugWindowConfiguration(0, 1);
 
 % Get the screen numbers
 screens = Screen('Screens');
@@ -26,7 +26,7 @@ ifi = Screen('GetFlipInterval', window);
 %% TRIAL MATRIX SETUP 
 num_trials = 5;
 theta_v = [90, 120, 150, 180];
-degradation = [2, 4, 8, 12, 16, 20, 24];
+degradation = [2,4,8,12,16,20,24];
 eccentricity = [0, 40];
 
 trial_rand = {};

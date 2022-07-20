@@ -82,7 +82,7 @@ ecc = [0, 40];
 labels = [];
 
 figure('Position', [100 60 1700 900]);
-tiledlayout(1,2,"Title",title_);
+tiledlayout(2,2,"Title",title_);
 
 for j = 1:length(res)
     nexttile
@@ -114,3 +114,27 @@ for j = 1:length(res)
     hold off
 end
 
+labels = [];
+nexttile([1 2]);
+
+ylim([-0.1 1.1]);
+xlim([0 40]);
+
+for i = 1:length(res)
+    
+    avg = mean(res{i},1);
+    plot(degradation, avg);
+    
+    labels = [labels, sprintf(" %d^o Peripheral Eccentricity Mean", (i-1)*ecc(2))];
+
+    hold on
+end
+
+ylim([-0.1 1.1]);
+xlim([0 40]);
+
+yline(0.25, 'LineStyle','--');
+hold off
+legend(labels)
+
+cd ..
