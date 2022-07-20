@@ -8,7 +8,7 @@ clearvars;
 PsychDefaultSetup(2);
 
 % Set window to opacity for debugging 
-PsychDebugWindowConfiguration(0, 1);
+PsychDebugWindowConfiguration(0, 0.1);
 
 % Get the screen numbers
 screens = Screen('Screens');
@@ -24,10 +24,10 @@ screenNumber = max(screens);
 ifi = Screen('GetFlipInterval', window);
 
 %% TRIAL MATRIX SETUP 
-num_trials = 1;
+num_trials = 5;
 theta_v = [90, 120, 150, 180];
-degradation = [4, 8, 12, 16, 20, 24, 28];
-eccentricity = [0, 20, 40, 60];
+degradation = [2, 4, 8, 12, 16, 20, 24];
+eccentricity = [0, 40];
 
 trial_rand = {};
 
@@ -83,6 +83,7 @@ for trial = 1:size(trial_rand, 2)
 
     % Reset black
     Screen('FillRect', window, [0, 0, 0]);
+
     Screen('Flip', window);
 
     trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);

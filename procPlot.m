@@ -4,10 +4,9 @@ close all
 
 % START IN P4P DIRECTORY %
 
-rand = false; %% Randomised blocking => rand = true
+rand = true; %% Randomised blocking => rand = true
 
 if rand
-    cd 'C:\Users\joeby\P4P'
     subs = {dir(fullfile('PrelimTrialData','*.mat')).name};
     noSubs = length(subs);
 else
@@ -27,7 +26,7 @@ else
 end 
 
 
-res = cell(1, 4); % Eccentricity results
+res = cell(1, 2); % Eccentricity results
 store = zeros([4, 7]); % Subj. results
 totalTrials = 0;
 
@@ -43,7 +42,7 @@ if rand
     
     for i = 1:noSubs
         load(subs{i})
-        for j = 1:4
+        for j = 1:length(res)
             res{j} = res{j} + matrix{j};
         
             if j == 1            
@@ -76,24 +75,22 @@ for i = 1:length(res)
     res{i} = res{i} / totalTrials;
 end
 
-degradation = [4, 8, 12, 16, 20, 24, 28];
+degradation = [2, 4, 8, 12, 16, 20, 24];
 theta_v = [90, 120, 150, 180];
+ecc = [0, 40];
 
 labels = [];
 
 figure('Position', [100 60 1700 900]);
-tiledlayout(2,2,"Title",title_);
+tiledlayout(1,2,"Title",title_);
 
 for j = 1:length(res)
     nexttile
     for k = 1:length(theta_v)
         
-%         if rand
-            title(sprintf("%d^o Peripheral Eccentricity ", (j-1)*20));
-%         else
-%             title(sprintf(subFolderNames{j}(end-2:end)));
-%         end
+        title(sprintf("%d^o Peripheral Eccentricity ", (j-1)*ecc(2)));
 
+        
         plot(degradation, res{j}(k, :));
         ylim([-0.1 1.1]);
         xlim([0 40]);
