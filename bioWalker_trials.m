@@ -15,7 +15,7 @@ screens = Screen('Screens');
 screenNumber = max(screens);
 
 % Open an on screen window
-[window, windowRect] = PsychImaging('OpenWindow', screenNumber, [0 0 0]);
+[window, windowRect] = PsychImaging('OpenWindow', screenNumber, [200 200 200]);
 
 % Get the size of the on screen window
 [screenXpixels, screenYpixels] = Screen('WindowSize', window);
@@ -24,14 +24,15 @@ screenNumber = max(screens);
 ifi = Screen('GetFlipInterval', window);
 
 %% TRIAL MATRIX SETUP 
-num_trials = 2;
+num_trials = 5;
 theta_v = [90, 120, 150, 180];
-degradation = [4, 8, 12, 16, 20, 24, 28];
+degradation = [2,4,8,12,16,20,24];
+eccentricity = [0, 40];
 
 trial_rand = {};
 
 for i = 1:num_trials
-    trial_rand = [trial_rand, randomiseTrials(theta_v, degradation)];
+    trial_rand = [trial_rand, randomiseTrials(theta_v, degradation, eccentricity)];
 end
 
 %% DOT SETUP2
@@ -73,13 +74,16 @@ inputKey = cell(1,size(theta_v,2)*size(degradation,2));
 
 for trial = 1:size(trial_rand, 2)
     % Flash grey
-    Screen('FillRect', window, [0.5, 0.5, 0.5]);
+    Screen('TextFont', window, 'Arial Unicode MS');
+    Screen('TextSize', window, 125);
+    DrawFormattedText(window, num2str(trial_rand{trial}.eccentricity), 'Center', 'Center', [0, 0, 0]);
     Screen('Flip', window);
 
-    pause(0.5);
+    KbStrokeWait;
 
     % Reset black
     Screen('FillRect', window, [0, 0, 0]);
+
     Screen('Flip', window);
 
     trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
@@ -112,6 +116,9 @@ for trial = 1:size(trial_rand, 2)
         life_count = incrementValues(life_count, time);
 
     end
+    Screen('FillRect', window, [100, 100, 100]);
+    Screen('Flip', window);
+
     data_count = 1;
     pause(0.5);
 
@@ -122,11 +129,10 @@ end
 % Clear screen
 sca;
 
-matrix = dataParser(trial_rand, theta_v, degradation);
+matrix = dataParser(trial_rand, theta_v, degradation, eccentricity);
 
 % Keep useful vars
 clearvars -except matrix num_trials;
 
 name = input("Trial Subject Name: ", "s");
-eccentricity = input("Trial Eccentricity Angle: ", "s");
-save(append('PrelimTrialData\Angle', eccentricity, '\', date, '-', name, '.mat'))
+save(append('PrelimTrialData\', date, '-', name, '.mat'))
