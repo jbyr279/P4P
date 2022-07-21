@@ -30,14 +30,6 @@ end
 
 format = '%6.2f %6.2f %6.2f\n';
 
-% for dim = 1:length(ecc)
-%     for col = 1:length(deg)
-%         for row = 1:length(theta_v)
-%             fprintf(fileID, format, res{dim}(row,col), theta_v(row), deg(col), ecc(dim));
-%         end
-%     end
-% end
-
 for v = 1:length(theta_v)
     for e = 1:length(ecc)
         for d = 1:length(deg)
@@ -48,5 +40,5 @@ end
 
 for i = 1:length(fileNameVP)
     fclose(fileID(i));
-%     edit(fileNameVP{i});
+    edit(fileNameVP{i});
 end
