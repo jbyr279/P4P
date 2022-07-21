@@ -11,27 +11,42 @@ ecc = [0 40];
 subs = {dir(fullfile('PrelimTrialData','*.mat')).name};
 noSubs = length(subs);
 
-format = '%6s %6s %6s %6s\n';
-fileName = 'res.txt';
+format = '%6s %6s %6s\n';
 
-fileID = fopen(fileName,'w');
-fprintf(fileID, format, 'rate', 'vp', 'deg', 'ecc');
+fileNameVP{1} = 'resVP00.txt';
+fileNameVP{2} = 'resVP30.txt';
+fileNameVP{3} = 'resVP60.txt';
+fileNameVP{4} = 'resVP90.txt';
 
-format = '%6.2f %6.2f %6.2f %6.2f\n';
+fileID = zeros([1 4]);
 
-for dim = 1:length(ecc)
-    for col = 1:length(deg)
-        for row = 1:length(theta_v)
-            fprintf(fileID, format, res{dim}(row,col), theta_v(row), deg(col), ecc(dim));
+for i = 1:length(fileNameVP)
+    fileID(i) = fopen(fileNameVP{i},'w');
+end
+
+for i = 1:length(fileNameVP)
+    fprintf(fileID(i), format, 'rate', 'deg', 'ecc');
+end
+
+format = '%6.2f %6.2f %6.2f\n';
+
+% for dim = 1:length(ecc)
+%     for col = 1:length(deg)
+%         for row = 1:length(theta_v)
+%             fprintf(fileID, format, res{dim}(row,col), theta_v(row), deg(col), ecc(dim));
+%         end
+%     end
+% end
+
+for v = 1:length(theta_v)
+    for e = 1:length(ecc)
+        for d = 1:length(deg)
+            fprintf(fileID(v), format, res{e}(v,d), deg(d), ecc(e));
         end
     end
 end
 
-fclose(fileID);
-edit(fileName);
-
-
-
-
-
-
+for i = 1:length(fileNameVP)
+    fclose(fileID(i));
+%     edit(fileNameVP{i});
+end
