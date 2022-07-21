@@ -93,7 +93,7 @@ for j = 1:length(res)
         
         plot(degradation, res{j}(k, :));
         ylim([-0.1 1.1]);
-        xlim([0 40]);
+        xlim([0 25]);
         
         if j == 1
             labels = [labels, (sprintf(" {\\theta}_v  =  %.2f deg", theta_v(k) - 90))];
@@ -118,7 +118,7 @@ labels = [];
 nexttile([1 2]);
 
 ylim([-0.1 1.1]);
-xlim([0 40]);
+xlim([0 25]);
 
 for i = 1:length(res)
     
@@ -131,7 +131,9 @@ for i = 1:length(res)
 end
 
 ylim([-0.1 1.1]);
-xlim([0 40]);
+xlim([0 25]);
+xlabel("Number of Nodes, {\eta}_d");
+ylabel("Success Rate, {\rho}");
 
 yline(0.25, 'LineStyle','--');
 hold off
