@@ -1,0 +1,33 @@
+
+Load Library
+```{r}
+library(s20x)
+success.df = read.table("resVP30.txt", header = TRUE)
+success.df$ecc = factor(success.df$ecc)
+plot(rate ~ deg, pch = as.character(ecc), data = success.df)
+```
+```{r}
+success.lm = lm(rate ~ deg * ecc, data = success.df)
+modcheck(success.lm)
+```
+```{r}
+summary(success.lm)
+```
+```{r}
+anova(success.lm)
+```
+```{r}
+success2.lm = lm(rate ~ deg + ecc, data = success.df)
+summary(success2.lm)
+```
+```{r}
+confint(success2.lm)
+```
+
+```{r}
+
+```
+
+
+
+

@@ -1,5 +1,6 @@
 %% PSYCH SETUP
-% Clear the workspace and the screen
+% Clear the workspace and the screensca
+
 sca;
 close all;
 clearvars;
@@ -93,10 +94,10 @@ for trial = 1:size(trial_rand, 2)
 
         if (mod(life_count, len/50) == 0)
             trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
-        end
+            end144341421442134343
 
         % Extract dotXpos and dotYpos and apply to dot on screen
-        if time <= 3
+        if time <= 2
             for i = 1:length(trajData)
                 dotXpos = trajData{2, i}.array(1, data_count)/scale;
                 dotYpos = -trajData{2, i}.array(3, data_count)/scale;
