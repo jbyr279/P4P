@@ -91,8 +91,8 @@ for j = 1:length(res)
         title(sprintf("%d^o Peripheral Eccentricity ", (j-1)*ecc(2)));
 
         
-        plot(degradation, res{j}(k, :));
-        ylim([-0.1 1.1]);
+        plot(degradation, 100*res{j}(k, :));
+        ylim([-0.1 110]);
         xlim([0 25]);
         
         if j == 1
@@ -107,7 +107,7 @@ for j = 1:length(res)
             labels = [labels, (" Guess rate: 25.00%")];
         end
         xlabel("Number of Nodes, {\eta}_d");
-        ylabel("Success Rate, {\rho}");
+        ylabel("Success Rate, %");
         hold on
     end
     legend(labels)
@@ -123,17 +123,17 @@ xlim([0 25]);
 for i = 1:length(res)
     
     avg = mean(res{i},1);
-    plot(degradation, avg);
+    plot(degradation, 100*avg);
     
     labels = [labels, sprintf(" %d^o Peripheral Eccentricity Mean, {\\mu}_e, where Standard Deviation, {\\sigma} = %.2f", (i-1)*ecc(2), std(avg))];
 
     hold on
 end
 
-ylim([-0.1 1.1]);
+ylim([-0.1 110]);
 xlim([0 25]);
 xlabel("Number of Nodes, {\eta}_d");
-ylabel("Success Rate, {\rho}");
+ylabel("Success Rate, %");
 
 yline(0.25, 'LineStyle','--');
 hold off
