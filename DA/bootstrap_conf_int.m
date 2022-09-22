@@ -14,4 +14,3 @@ for iiboot = 1:NBOOT
   Bmean(iiboot) = mean(data_);
 end
 prctile(Bmean, [2.5 97.5])
-
