@@ -25,7 +25,7 @@ screenNumber = max(screens);
 ifi = Screen('GetFlipInterval', window);
 
 %% TRIAL MATRIX SETUP 
-num_trials = 5;
+num_trials = 4;
 theta_v = [90, 120, 150, 180];
 degradation = [2,4,8,12,16,20,24];
 eccentricity = [0, 40];
@@ -47,7 +47,7 @@ dotCenter = [(screenXpixels / 2 - 140) (screenYpixels / 2 + 500)];
 
 dotYpos = 0;
 dotXpos = 0;
-dotSizes = 20;
+dotSizes = 10;
 
 white = WhiteIndex(screenNumber);
 dotColours = white*colourLevel;
@@ -94,10 +94,10 @@ for trial = 1:size(trial_rand, 2)
 
         if (mod(life_count, len/50) == 0)
             trajData = getTrajData(trial_rand{trial}.degradation, trial_rand{trial}.theta_v, 'TrajectoryData/*.mat', scale);
-            end144341421442134343
+        end
 
         % Extract dotXpos and dotYpos and apply to dot on screen
-        if time <= 2
+        if time <= 1
             for i = 1:length(trajData)
                 dotXpos = trajData{2, i}.array(1, data_count)/scale;
                 dotYpos = -trajData{2, i}.array(3, data_count)/scale;
@@ -136,4 +136,6 @@ matrix = dataParser(trial_rand, theta_v, degradation, eccentricity);
 clearvars -except matrix num_trials;
 
 name = input("Trial Subject Name: ", "s");
-save(append('PrelimTrialData\', date, '-', name, '.mat'))
+cd TrialData/Store/
+save(sprintf("%s-%s.mat", date, name))
+cd ../..

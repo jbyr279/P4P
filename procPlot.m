@@ -10,7 +10,7 @@ if rand
     subs = {dir(fullfile('PrelimTrialData','*.mat')).name};
     noSubs = length(subs);
 else
-    cd 'C:\Users\joeby\P4P\PrelimTrialData'
+    cd 'C:\Users\joeby\P4P\TrialData\Store'
     files = dir;
     dirFlags = [files.isdir];
     subFolders = files(dirFlags);
