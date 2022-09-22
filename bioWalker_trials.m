@@ -24,7 +24,7 @@ screenNumber = max(screens);
 % Query the frame duration
 ifi = Screen('GetFlipInterval', window);
 
-%% TRIAL MATRIX SETUP 
+%% TRIAL MATRIX SETUP
 num_trials = 4;
 theta_v = [90, 120, 150, 180];
 degradation = [2,4,8,12,16,20,24];
