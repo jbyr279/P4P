@@ -3,9 +3,7 @@
 DATA = [1	1	1	1	1	0	0;
         1	1	1	0	1	1	1;
         1	1	1	0	1	0	1;
-        1	1	1	1	1	1	0;
-        1	1	1	1	1	1	1;
-        1	1	1	1	1	0	0];
+        1	1	1	1	1	1	0];
 NOISE = 1:7;
 NOISE_ = linspace(min(NOISE),max(NOISE),1000);
 SUBJECT = transpose(1:6);
