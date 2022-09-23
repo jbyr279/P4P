@@ -38,7 +38,7 @@ title_ = matlab.graphics.layout.Text;
 title_.FontWeight = 'bold';
 
 if rand
-    cd TrialData\Store
+    cd TrialData
     
     for i = 1:noSubs
         load(subs{i})
