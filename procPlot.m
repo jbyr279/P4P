@@ -2,32 +2,15 @@ clear
 clc
 close all
 
-% START IN P4P DIRECTORY %
+degradation = [2, 4, 8, 12, 16, 20, 24];
+theta_v = [90, 120, 150, 180];
+ecc = [0, 40];
 
-rand = true; %% Randomised blocking => rand = true
+subs = {dir(fullfile('TrialData/Store/','*.mat')).name};
+noSubs = length(subs);
 
-if rand
-    subs = {dir(fullfile('TrialData\Store','*.mat')).name};
-    noSubs = length(subs);
-else
-    cd 'C:\Users\Alan Chen\Desktop\UoA\P4P\PLW\P4P\TrialData\Store'
-    files = dir;
-    dirFlags = [files.isdir];
-    subFolders = files(dirFlags);
-    subFolderNames = {subFolders(3:end).name};
-    
-    cd(subFolderNames{1});
-    noSubs = length(dir) - 2;
-    
-    files = dir;
-    subNames = {files(3:end).name};
-    
-    cd ..
-end 
-
-
-res = cell(1, 2); % Eccentricity results
-store = zeros([4, 7]); % Subj. results
+res = cell(1, length(ecc)); % Eccentricity results
+store = zeros([length(theta_v), length(degradation)]); % Subj. results
 totalTrials = 0;
 
 for i = 1:length(res)
@@ -37,47 +20,25 @@ end
 title_ = matlab.graphics.layout.Text;
 title_.FontWeight = 'bold';
 
-if rand
-    cd TrialData\Store
-    
-    for i = 1:noSubs
-        load(subs{i})
-        for j = 1:length(res)
-            res{j} = res{j} + matrix{j};
-        
-            if j == 1            
-                totalTrials = totalTrials + num_trials;
-            end
-        end 
-    end
-    title_.String = "Randomized Blocking Trials";
-else 
-    for j = 1:length(subFolderNames)
-        cd(subFolderNames{j});
-        for i = 1:noSubs
-            load(subNames{i})
-    
-            res{j} = res{j} + matrix;
-    
-            if j == length(subFolderNames)
-                totalTrials = totalTrials + num_trials;
-            end
-    
-        end
-        cd ..
-    end
-    title_.String = "Unrandomized Blocking Trials";
-end
+addpath TrialData/Store
+addpath DA
 
+for i = 1:noSubs
+    load(subs{i})
+    for j = 1:length(res)
+        res{j} = res{j} + matrix{j};
+    
+        if j == 1            
+            totalTrials = totalTrials + num_trials;
+        end
+    end 
+end
+title_.String = "Randomized Blocking Trials";
 
 % Averaging the results
 for i = 1:length(res)
     res{i} = res{i} / totalTrials;
 end
-
-degradation = [2, 4, 8, 12, 16, 20, 24];
-theta_v = [90, 120, 150, 180];
-ecc = [0, 40];
 
 labels = [];
 
