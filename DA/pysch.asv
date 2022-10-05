@@ -1,8 +1,10 @@
 % Columns are stimulus noise, 1 to 7 with noise increasing from
 % L to R. Rows are experimental subject.
 
-load("averaged_performance.mat")
-DATA = averaged_performance
+load("total_zero.mat")
+load*
+DATA = averaged_performance{2};
+
 NOISE = 1:7;
 NOISE_ = linspace(min(NOISE),max(NOISE),1000);
 SUBJECT = transpose(1:6);
