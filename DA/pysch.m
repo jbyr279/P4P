@@ -49,5 +49,5 @@ xlabel('Noise')
 ylabel('Performance (proportion correct responses)')
 
 % Determine threshold, that is, where the fitted function = 0.75
-% plot(NOISE_(max(find(PM_ > 0.75))), 0.75, 'sb', 'MarkerFaceColor', 'blue')
+plot(NOISE_(min(find(PM_ > 0.625))), 0.625, 'sb', 'MarkerFaceColor', 'blue')
 
