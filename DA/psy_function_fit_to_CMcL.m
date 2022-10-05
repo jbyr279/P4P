@@ -1,15 +1,9 @@
 % Columns are stimulus noise, 1 to 7 with noise increasing from
 % L to R. Rows are experimental subject.
 DATA = [1	1	1	1	1	0	0;
-<<<<<<< HEAD
-        1	1	1	0	1	1	1;
-        1	1	1	0	1	0	1;
-        1	1	1	1	1	1	0];
-=======
         1	0	0	0	0	1	0;
         1	1	1	0	0	0	1;
         1	1	1	1	1	0	0];
->>>>>>> feat/psych-function
 NOISE = 1:7;
 NOISE_ = linspace(min(NOISE),max(NOISE),1000);
 SUBJECT = transpose(1:6);
