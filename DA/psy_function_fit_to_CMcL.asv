@@ -1,24 +1,17 @@
 % Columns are stimulus noise, 1 to 7 with noise increasing from
 % L to R. Rows are experimental subject.
 DATA = [1	1	1	1	1	0	0;
-<<<<<<< HEAD
         1	1	1	0	1	1	1;
         1	1	1	0	1	0	1;
         1	1	1	1	1	1	0];
-=======
-        1	0	0	0	0	1	0;
-        1	1	1	0	0	0	1;
-        1	1	1	1	1	0	0];
->>>>>>> feat/psych-function
 NOISE = 1:7;
 NOISE_ = linspace(min(NOISE),max(NOISE),1000);
 SUBJECT = transpose(1:6);
-POLARITY = -1;
 
 % Define functions used in the fit, including fnBound() which is used
 % to determine the sensible range of fitted parameters.
 fnBound = @(bhat) 1/(eps+double((bhat(1) > 2) & (bhat(1) < 6) & (bhat(2) > 0) & (bhat(2) < 3)));
-fnPsychometric = @(mu,sd,x) 0.25 + 0.375*(1 + erf((x-mu)/(sd*sqrt(2))));
+fnPsychometric = @(mu,sd,x) 0.5 + 0.25*(1 + erf((x-mu)/(sd*sqrt(2))));
 fnCost = @(bhat) sum(power(fnPsychometric(bhat(1),bhat(2),max(NOISE) - NOISE) - mean(DATA,1),2)) * fnBound(bhat);
 
 % This is a multi-start procedure. We perform the fit 1000 times, using
@@ -47,12 +40,12 @@ end
 % Plot fitted psychometric function
 PM_ = fnPsychometric(best_bhat(1),best_bhat(2),max(NOISE_) - NOISE_);
 plot(NOISE_, PM_, '-b')
-plot([min(NOISE) max(NOISE)], [0.25 0.25], '--k')
+plot([min(NOISE) max(NOISE)], [0.5 0.5], '--k')
 axis square
 axis([0 length(NOISE)+1 0 1])
 xlabel('Noise')
 ylabel('Performance (proportion correct responses)')
 
 % Determine threshold, that is, where the fitted function = 0.75
-% plot(NOISE_(max(find(PM_ > 0.75))), 0.75, 'sb', 'MarkerFaceColor', 'blue')
+plot(NOISE_(max(find(PM_ > 0.75))), 0.75, 'sb', 'MarkerFaceColor', 'blue')
 
