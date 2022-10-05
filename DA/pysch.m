@@ -4,11 +4,10 @@
 load("total_fourty.mat")
 load("total_zero.mat")
 
-DATA = totalFourtyArray;
+DATA = totalZeroArray;
 
-NOISE = 1:7;
+NOISE = [2 4 8 12 16 20 24];
 NOISE_ = linspace(min(NOISE),max(NOISE),1000);
-SUBJECT = transpose(1:6);
 
 % Define functions used in the fit, including fnBound() which is used
 % to determine the sensible range of fitted parameters.
@@ -37,15 +36,15 @@ plot(NOISE, mean(DATA,1), 'ok', 'MarkerFaceColor', 'black');
 % Confidence intervals at each level of noise...
 for ii = 1:length(NOISE)
   [~,pci] = binofit(sum(DATA(:,ii)), size(DATA,1));
-  plot([ii ii], pci, '-k')
+  plot([NOISE(ii) NOISE(ii)], pci, '-k')
 end
 % Plot fitted psychometric function
 PM_ = fnPsychometric(best_bhat(1),best_bhat(2),NOISE_ - max(NOISE_));
 plot(NOISE_, PM_, '-b')
 plot([min(NOISE) max(NOISE)], [0.25 0.25], '--k')
 axis square
-axis([0 length(NOISE)+1 0 1])
-xlabel('Noise')
+axis([0 max(NOISE)+1 0 1])
+xlabel('Number of Visible Nodes ')
 ylabel('Performance (proportion correct responses)')
 
 % Determine threshold, that is, where the fitted function = 0.75
