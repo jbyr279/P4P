@@ -4,7 +4,7 @@
 load("total_fourty.mat")
 load("total_zero.mat")
 
-DATA = totalZeroArray;
+DATA = totalFourtyArray;
 
 NOISE = [2 4 8 12 16 20 24];
 NOISE_ = linspace(min(NOISE),max(NOISE),1000);

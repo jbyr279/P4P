@@ -22,6 +22,7 @@
 
 % ****************************************************** %
 clear
+close all
 
 load("total_fourty.mat")
 load("total_zero.mat")
@@ -42,6 +43,14 @@ end
 confint40 = prctile(crit(:, 1), [2.5 97.5]);
 confint0 = prctile(crit(:, 2), [2.5 97.5]);
 
+figure; hist(crit(:,1)); axis square
+figure; hist(crit(:,2)); axis square
+
+% plot([mean(crit(:,1)) mean(crit(:,1))], confint40, '-k'); hold on; axis square
+% plot([mean(crit(:,2)) mean(crit(:,2))], confint0, '-k');
+% 
+% plot(mean(crit(:,1)), mean(confint40), 'MarkerFaceColor','auto');
+% plot(mean(crit(:,2)), mean(confint0));
 
 
 
