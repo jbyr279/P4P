@@ -18,18 +18,8 @@ end
 function index = mapDegradation(dots)
     if dots == 2
         index=1;
-    elseif dots == 4
-        index=2;
-    elseif dots == 8
-        index=3;
-    elseif dots ==12
-        index=4;
-    elseif dots ==16
-        index=5;
-    elseif dots ==20
-        index=6;
-    elseif dots == 24
-        index=7;
+    else
+        index = dots/4 + 1;
     end
 end
 

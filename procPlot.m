@@ -42,17 +42,21 @@ end
 
 labels = [];
 
-figure('Position', [100 60 1700 900]);
-tiledlayout(2,2,"Title",title_);
+% figure('Position', [100 60 1700 900]);
+% tiledlayout(2,2,"Title",title_);
 
 for j = 1:length(res)
-    nexttile
+%     nexttile
     for k = 1:length(theta_v)
         
-        title(sprintf("%d^o Peripheral Eccentricity ", (j-1)*ecc(2)));
+        title(sprintf("%d^o Peripheral Eccentricity ", (j-1)*ecc(2)), 'FontSize', 28);
 
         
+<<<<<<< HEAD
         plot(degradation, res{j}(k, :), '-o');
+=======
+        plot(degradation, res{j}(k, :), 'LineWidth', 2); axis square;
+>>>>>>> 032f591f749e63211779d08a6d8f0ea62bb71884
         ylim([-0.1 1.1]);
         xlim([0 25]);
         
@@ -61,7 +65,7 @@ for j = 1:length(res)
         end
 
         if k == length(theta_v)
-            yline(0.25, 'LineStyle','--');
+            yline(0.25, 'LineStyle','--', 'LineWidth', 1.5);
         end
 
         if j == 1 && k == length(theta_v)
@@ -73,6 +77,7 @@ for j = 1:length(res)
     end
     legend(labels)
     hold off
+    close;
 end
 
 labels = [];
@@ -84,7 +89,11 @@ xlim([0 25]);
 for i = 1:length(res)
     
     avg = mean(res{i},1);
+<<<<<<< HEAD
     plot(degradation, avg, "-o");
+=======
+    plot(degradation, avg); axis square;
+>>>>>>> 032f591f749e63211779d08a6d8f0ea62bb71884
     
     labels = [labels, sprintf(" %d^o Peripheral Eccentricity Mean, {\\mu}_e, where Standard Deviation, {\\sigma} = %.2f", (i-1)*ecc(2), std(avg))];
 
@@ -95,9 +104,7 @@ ylim([-0.1 1.1]);
 xlim([0 25]);
 xlabel("Number of Nodes, {\eta}_d");
 ylabel("Success Rate, {\rho}");
-
+title("Mean Performance", 'FontSize', 28);
 yline(0.25, 'LineStyle','--');
 hold off
 legend(labels)
-
-cd ..

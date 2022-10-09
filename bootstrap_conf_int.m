@@ -27,23 +27,24 @@ close all
 load("total_fourty.mat")
 load("total_zero.mat")
 
-DATA = totalFourtyArray;
+DATA = totalZeroArray;
 for dat = 1:2
-    for NBOOT = 1:100
+    for NBOOT = 1:1000
         for deg = 1:size(DATA,2)
             data = DATA(:, deg);
             ix = ceil(length(data) * rand(length(data),1));
             data_{dat}(:, deg) = data(ix); % resample _with_ replacement
         end
-        crit(NBOOT, dat) = psychFit(data_{dat});
+        crit(NBOOT, dat) = psych_fit_weibull(data_{dat});
     end
-    DATA = totalZeroArray;
+    DATA = totalFourtyArray;
 end
 
 confint40 = prctile(crit(:, 1), [2.5 97.5]);
 confint0 = prctile(crit(:, 2), [2.5 97.5]);
 
 figure; hist(crit(:,1)); axis square
+
 figure; hist(crit(:,2)); axis square
 
 % plot([mean(crit(:,1)) mean(crit(:,1))], confint40, '-k'); hold on; axis square
