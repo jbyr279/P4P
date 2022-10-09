@@ -4,7 +4,7 @@
 load("total_fourty.mat")
 load("total_zero.mat")
 
-DATA = totalFourtyArray;
+DATA = totalZeroArray;
 
 NOISE = [2 4 8 12 16 20 24];
 NOISE_ = linspace(min(NOISE),max(NOISE),1000);
@@ -46,6 +46,7 @@ axis square
 axis([0 max(NOISE)+1 0 1])
 xlabel('Number of Visible Nodes ')
 ylabel('Performance (proportion correct responses)')
+title('Psychometric Function fit against trial data')
 
 % Determine threshold, that is, where the fitted function = 0.75
 plot(NOISE_(min(find(PM_ > 0.625))), 0.625, 'sb', 'MarkerFaceColor', 'blue')

@@ -52,7 +52,7 @@ for j = 1:length(res)
         title(sprintf("%d^o Peripheral Eccentricity ", (j-1)*ecc(2)));
 
         
-        plot(degradation, res{j}(k, :));
+        plot(degradation, res{j}(k, :), '-o');
         ylim([-0.1 1.1]);
         xlim([0 25]);
         
@@ -84,7 +84,7 @@ xlim([0 25]);
 for i = 1:length(res)
     
     avg = mean(res{i},1);
-    plot(degradation, avg);
+    plot(degradation, avg, "-o");
     
     labels = [labels, sprintf(" %d^o Peripheral Eccentricity Mean, {\\mu}_e, where Standard Deviation, {\\sigma} = %.2f", (i-1)*ecc(2), std(avg))];
 
