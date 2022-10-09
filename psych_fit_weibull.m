@@ -8,7 +8,7 @@ fnPsychometric = @(lam,k,x) 0.25 + 0.75*(1 - exp(-power(max(0,x)/lam,k)));
 fnCost = @(bhat) sum(power(fnPsychometric(bhat(1),bhat(2),NOISE) - mean(DATA,1),2)) * fnBound(bhat);
 
 best_fval = 1/eps;
-for iistart = 1:1000
+for iistart = 1:100
   BHAT0 = [3 1];
   if (iistart > 1)
     BHAT0 = [2+4*rand() 3*rand()];
@@ -22,7 +22,6 @@ end
 
 PM_ = fnPsychometric(bhat(1),bhat(2),NOISE_);
 
-% Determine threshold, that is, where the fitted function = 0.75
+% Determine threshold, that is, where the fitted function = 0.625
 crit = NOISE_(min(find(PM_ > 0.625)));
-
 end
