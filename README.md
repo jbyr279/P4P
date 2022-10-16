@@ -1,6 +1,8 @@
 # P4P - The Perception of Biological Motion (2022)
 Part IV Project - Joseph Byrne, Alan Chen
 
+https://github.com/jbyr279/P4P 
+
 ## Overview of the Work Done 
 
 ### Data Capture
