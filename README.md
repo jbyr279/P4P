@@ -18,12 +18,13 @@ A treadmill was then placed near the centre of the motion capture space. The sub
   <img src="/Images/vicondisplays.jpg" width="500" /> 
 </p>
 
-The trajectory data for all captured nodes are then stored within the Vicon Nexus software. This can be exported to several different softwares (MATLAB, Python, etc.) For the purposes of our project, we used [MATLAB](https://au.mathworks.com/products/connections/product_detail/vicon-nexus.html).
+The trajectory data for all captured nodes are then stored within the Vicon Nexus software. This can be exported to several different softwares (MATLAB, Python, etc.). For the purposes of our project, we used [MATLAB](https://au.mathworks.com/products/connections/product_detail/vicon-nexus.html).
 
 ### Data Processing in MATLAB 
 
 All software used for data processing in this repository is fully commented. These scripts provide all the functionality for extracting data to data analysis of the trial experiments. The repository has been organised in the following structure:
 
+![alt text](/Images/structure.jpg)
 
 ### Experiment Procedure 
 
