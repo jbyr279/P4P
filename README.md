@@ -1,6 +1,7 @@
 # P4P - The Perception of Biological Motion (2022)
 Part IV Project - Joseph Byrne, Alan Chen
 
+<<<<<<< HEAD
 ## Overview of the Work Done 
 
 ### Data Capture
@@ -33,6 +34,11 @@ Experiments were conducted in the brain computer interface (BCI) lab, also on le
 ![alt text](/Images/bcidisplays.jpg)
 
 
+=======
+## Data Capture
+
+Data capture was done in the motion capture lab on level 8 at the University of Auckland. The following node configuration was used for our point light walker: 
+>>>>>>> main
 
 
 
