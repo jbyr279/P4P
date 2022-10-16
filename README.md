@@ -1,7 +1,6 @@
 # P4P - The Perception of Biological Motion (2022)
 Part IV Project - Joseph Byrne, Alan Chen
 
-<<<<<<< HEAD
 ## Overview of the Work Done 
 
 ### Data Capture
@@ -33,12 +32,7 @@ Experiments were conducted in the brain computer interface (BCI) lab, also on le
 
 ![alt text](/Images/bcidisplays.jpg)
 
-
-=======
-## Data Capture
-
-Data capture was done in the motion capture lab on level 8 at the University of Auckland. The following node configuration was used for our point light walker: 
->>>>>>> main
+Subjects were shown the testing apparatus and station before trialing began.  We gave subjects a number of practice trials to avoid any learning factor in our data (i.e. considerable failures early in the trials which could skew data).  Our experimental blocks were each a set of 56 trials comprising randomly generated point-light walkers with random viewpoint angle, degradation and peripheral eccentricity.  These walkers were generated using the scripts found in the `SubjectTrials` directory.  The subject was directed to each eccentricity with markers placed on the displays and inter-trial directions (between trials, the subject is directed to either the 0 or 40 degree marker).  After the block of trials was completed, we then stored the subject’s response in the `TrialData` directory for further analysis.
 
 
 
