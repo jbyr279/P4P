@@ -24,7 +24,7 @@ The trajectory data for all captured nodes are then stored within the Vicon Nexu
 
 All software used for data processing in this repository is fully commented. These scripts provide all the functionality for extracting data to data analysis of the trial experiments. The repository has been organised in the following structure:
 
-![alt text](/Images/structure.jpg)
+![alt text](/Images/structure.png)
 
 ### Experiment Procedure 
 
