@@ -1,5 +1,5 @@
 %% Data Extraction Script %% 
-% Data from Alan's gait in intitial testing
+% Data from subject's gait
 % Processing this data will involve psychtoolbox3
 %
 % Authors: Alan Chen, Joe Byrne

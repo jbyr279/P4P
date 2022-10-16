@@ -1,14 +1,23 @@
+%% Raw Plotting Script %% 
+% Data from subjects' responses
+% Raw data plotting %
+% Authors: Alan Chen, Joe Byrne
+% Date: 02/09/2022
+
 clear
 clc
 close all
 
+% Initialise independent vars
 degradation = [2, 4, 8, 12, 16, 20, 24];
 theta_v = [90, 120, 150, 180];
 ecc = [0, 40];
 
-subs = {dir(fullfile('TrialData/Store/','*.mat')).name};
+% Get subjects
+subs = {dir(fullfile('../TrialData/Store/','*.mat')).name};
 noSubs = length(subs);
 
+% Set up global vars
 res = cell(1, length(ecc)); % Eccentricity results
 store = zeros([length(theta_v), length(degradation)]); % Subj. results
 totalTrials = 0;
@@ -17,11 +26,13 @@ for i = 1:length(res)
     res{i} = store;
 end
 
+% Plot settings
 title_ = matlab.graphics.layout.Text;
 title_.FontWeight = 'bold';
 
+% Relevant paths
 addpath TrialData/Store
-addpath DA
+addpath Data4Analysis
 
 for i = 1:noSubs
     load(subs{i})
@@ -33,41 +44,36 @@ for i = 1:noSubs
         end
     end 
 end
-title_.String = "Randomized Blocking Trials";
 
 % Averaging the results
 for i = 1:length(res)
     res{i} = res{i} / totalTrials;
 end
 
+% Plot settings
+title_.String = "Randomized Blocking Trials";
 labels = [];
+figure('Position', [100 60 1700 900]);
+tiledlayout(2,2,"Title",title_);
 
-% figure('Position', [100 60 1700 900]);
-% tiledlayout(2,2,"Title",title_);
-
+%% Viewpoint Plots %% 
+% For each res cell
 for j = 1:length(res)
-%     nexttile
+    nexttile
+    % For each viewpoint angle
     for k = 1:length(theta_v)
         
-        title(sprintf("%d^o Peripheral Eccentricity ", (j-1)*ecc(2)), 'FontSize', 28);
-
-        
-<<<<<<< HEAD
-        plot(degradation, res{j}(k, :), '-o');
-=======
+        % Plot subject data
         plot(degradation, res{j}(k, :), 'LineWidth', 2); axis square;
->>>>>>> 032f591f749e63211779d08a6d8f0ea62bb71884
         ylim([-0.1 1.1]);
         xlim([0 25]);
-        
+        title(sprintf("%d^o Peripheral Eccentricity ", (j-1)*ecc(2)), 'FontSize', 28);
         if j == 1
             labels = [labels, (sprintf(" {\\theta}_v  =  %.2f deg", theta_v(k) - 90))];
         end
-
         if k == length(theta_v)
             yline(0.25, 'LineStyle','--', 'LineWidth', 1.5);
         end
-
         if j == 1 && k == length(theta_v)
             labels = [labels, (" Guess rate: 25.00%")];
         end
@@ -77,29 +83,27 @@ for j = 1:length(res)
     end
     legend(labels)
     hold off
-    close;
 end
 
+%% Mean Peripheral Plot %%
+% Plot settings update
 labels = [];
 nexttile([1 2]);
-
 ylim([-0.1 1.1]);
 xlim([0 25]);
 
+% For each res cell
 for i = 1:length(res)
     
+    % Plot overall average subject performance
     avg = mean(res{i},1);
-<<<<<<< HEAD
-    plot(degradation, avg, "-o");
-=======
     plot(degradation, avg); axis square;
->>>>>>> 032f591f749e63211779d08a6d8f0ea62bb71884
-    
-    labels = [labels, sprintf(" %d^o Peripheral Eccentricity Mean, {\\mu}_e, where Standard Deviation, {\\sigma} = %.2f", (i-1)*ecc(2), std(avg))];
-
+    labels = [labels, sprintf(" %d^o Peripheral Eccentricity Mean, {\\mu}_e," + ...
+        " where Standard Deviation, {\\sigma} = %.2f", (i-1)*ecc(2), std(avg))];
     hold on
 end
 
+% Plot settings
 ylim([-0.1 1.1]);
 xlim([0 25]);
 xlabel("Number of Nodes, {\eta}_d");

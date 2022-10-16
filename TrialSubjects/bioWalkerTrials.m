@@ -1,3 +1,11 @@
+%% Bio Walker Rendering Script %% 
+% Data from subject's gait
+% Processing this data will involve psychtoolbox3
+% This script renders the PLW necessary with visual degradation for the trials 
+%
+% Authors: Alan Chen, Joe Byrne
+% Date: 06/06/2022
+
 %% PSYCH SETUP
 % Clear the workspace and the screensca
 
