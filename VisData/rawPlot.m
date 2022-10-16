@@ -56,6 +56,17 @@ labels = [];
 figure('Position', [100 60 1700 900]);
 tiledlayout(2,2,"Title",title_);
 
+<<<<<<< HEAD:procPlot.m
+figure('Position', [100 60 1700 900]);
+tiledlayout(2,2,"Title",title_);
+
+for j = 1:length(res)
+    nexttile
+    for k = 1:length(theta_v)
+        
+        title(sprintf("%d^o Peripheral Eccentricity ", (j-1)*ecc(2)), 'FontSize', 14);
+        plot(degradation, res{j}(k, :), '-o');
+=======
 %% Viewpoint Plots %% 
 % For each res cell
 for j = 1:length(res)
@@ -65,6 +76,7 @@ for j = 1:length(res)
         
         % Plot subject data
         plot(degradation, res{j}(k, :), 'LineWidth', 2); axis square;
+>>>>>>> main:VisData/rawPlot.m
         ylim([-0.1 1.1]);
         xlim([0 25]);
         title(sprintf("%d^o Peripheral Eccentricity ", (j-1)*ecc(2)), 'FontSize', 28);
@@ -82,7 +94,12 @@ for j = 1:length(res)
         hold on
     end
     legend(labels)
+<<<<<<< HEAD:procPlot.m
+%     hold off
+%     close;
+=======
     hold off
+>>>>>>> main:VisData/rawPlot.m
 end
 
 %% Mean Peripheral Plot %%
@@ -97,9 +114,15 @@ for i = 1:length(res)
     
     % Plot overall average subject performance
     avg = mean(res{i},1);
+<<<<<<< HEAD:procPlot.m
+    plot(degradation, avg, "-o");
+    labels = [labels, sprintf(" %d^o Peripheral Eccentricity Mean, {\\mu}_e, where Standard Deviation, {\\sigma} = %.2f", (i-1)*ecc(2), std(avg))];
+
+=======
     plot(degradation, avg); axis square;
     labels = [labels, sprintf(" %d^o Peripheral Eccentricity Mean, {\\mu}_e," + ...
         " where Standard Deviation, {\\sigma} = %.2f", (i-1)*ecc(2), std(avg))];
+>>>>>>> main:VisData/rawPlot.m
     hold on
 end
 
@@ -108,7 +131,7 @@ ylim([-0.1 1.1]);
 xlim([0 25]);
 xlabel("Number of Nodes, {\eta}_d");
 ylabel("Success Rate, {\rho}");
-title("Mean Performance", 'FontSize', 28);
+title("Mean performance across all viewpoint angles", 'FontSize', 12);
 yline(0.25, 'LineStyle','--');
 hold off
 legend(labels)
