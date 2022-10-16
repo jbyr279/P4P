@@ -14,8 +14,8 @@ All point light walker data was captured at the University of Auckland's motion 
 A treadmill was then placed near the centre of the motion capture space. The subject walked at moderate speed (1.5 m/s) at level 4 setting for 60 seconds and his gait was captured by the Vicon Nexus system installed in the lab. Please ask, Emanuele Romano (or other technician) for induction into the motion capture lab and additional assistance with the motion capture technology used for this project.
 
 <p float="left">
-  <img src="/Images/mocaplab.jpg" width="500" />
-  <img src="/Images/vicondisplays.jpg" width="500" /> 
+  <img src="/Images/mocaplab.jpg" width="300" />
+  <img src="/Images/vicondisplays.jpg" width="300" /> 
 </p>
 
 The trajectory data for all captured nodes are then stored within the Vicon Nexus software. This can be exported to several different softwares (MATLAB, Python, etc.). For the purposes of our project, we used [MATLAB](https://au.mathworks.com/products/connections/product_detail/vicon-nexus.html).
